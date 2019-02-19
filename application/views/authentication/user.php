@@ -9,7 +9,7 @@
   <!-- /.login-logo -->
   <div class="login-box-body xrx-round-corners xrx-box-padding">
     <div class="login-logo">
-      <img src="{{ base_url }}dist/img/tmd_logo.png">
+      <img src="{{ base_url }}dist/img/gimg_logo.png">
     </div>
 
     {% if states %}
