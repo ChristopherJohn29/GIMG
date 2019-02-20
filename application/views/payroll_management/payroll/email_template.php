@@ -4,5 +4,5 @@
 <p>Thank you!</p>
 <p>
 Regards,<br>
-Michelle Golub
+Rico Bon
 </p>
