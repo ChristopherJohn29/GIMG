@@ -7,5 +7,5 @@
 <br>
 <p>
 Regards,<br>
-MERI PAPIKYAN
+Wendy Leyva
 </p>
