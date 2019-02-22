@@ -8,14 +8,14 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mobile_drs
+-- Schema gimg_ehr
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mobile_drs
+-- Schema gimg_ehr
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mobile_drs` DEFAULT CHARACTER SET utf8 ;
-USE `mobile_drs` ;
+CREATE SCHEMA IF NOT EXISTS `gimg_ehr` DEFAULT CHARACTER SET utf8 ;
+USE `gimg_ehr` ;
 
 -- -----------------------------------------------------
 -- Table `gimg_ehr`.`roles`
@@ -341,7 +341,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- Data for table `gimg_ehr`.`roles`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`roles` (`roles_id`, `roles_name`) VALUES (1, 'Super Administrator');
 INSERT INTO `gimg_ehr`.`roles` (`roles_id`, `roles_name`) VALUES (2, 'Administrator');
 INSERT INTO `gimg_ehr`.`roles` (`roles_id`, `roles_name`) VALUES (3, 'Normal');
@@ -353,7 +353,7 @@ COMMIT;
 -- Data for table `gimg_ehr`.`user`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`user` (`user_id`, `user_firstname`, `user_lastname`, `user_email`, `user_dateCreated`, `user_password`, `user_roleID`, `user_sessionID`) VALUES (1, 'Nikkolai', 'Fernandez', 'nikkolaifernandez14@gmail.com', '2018/11/25', '$2y$10$NRfEbjlqjRpXiSZaw.DzW.d5.Zw2I5q8HOODaKPvsfAM3HFmgrOrW', 1, NULL);
 INSERT INTO `gimg_ehr`.`user` (`user_id`, `user_firstname`, `user_lastname`, `user_email`, `user_dateCreated`, `user_password`, `user_roleID`, `user_sessionID`) VALUES (2, 'Jayson', 'Arcayna', 'jayson.arcayna@gmail.com', '2018/11/25', '$2y$10$CVTPVGMFB4QcC4OXyQcYMOsDdxjRQ57E0/nGNrn3P3QVdLS3b0zZq', 1, NULL);
 
@@ -364,7 +364,7 @@ COMMIT;
 -- Data for table `gimg_ehr`.`permissions`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`permissions` (`permissions_id`, `permissions_name`, `permissions_module`) VALUES (1, 'add_user', 'UM');
 INSERT INTO `gimg_ehr`.`permissions` (`permissions_id`, `permissions_name`, `permissions_module`) VALUES (2, 'edit_user', 'UM');
 INSERT INTO `gimg_ehr`.`permissions` (`permissions_id`, `permissions_name`, `permissions_module`) VALUES (3, 'view_user', 'UM');
@@ -437,7 +437,7 @@ COMMIT;
 -- Data for table `gimg_ehr`.`roles_permission`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`roles_permission` (`rp_id`, `rp_rolesID`, `rp_permissionsID`) VALUES (1, 1, 1);
 INSERT INTO `gimg_ehr`.`roles_permission` (`rp_id`, `rp_rolesID`, `rp_permissionsID`) VALUES (2, 1, 2);
 INSERT INTO `gimg_ehr`.`roles_permission` (`rp_id`, `rp_rolesID`, `rp_permissionsID`) VALUES (3, 1, 3);
@@ -613,7 +613,7 @@ COMMIT;
 -- Data for table `gimg_ehr`.`place_of_service`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`place_of_service` (`pos_id`, `pos_code`, `pos_name`) VALUES (1, 'POS11', 'Office');
 INSERT INTO `gimg_ehr`.`place_of_service` (`pos_id`, `pos_code`, `pos_name`) VALUES (2, 'POS12', 'Home');
 INSERT INTO `gimg_ehr`.`place_of_service` (`pos_id`, `pos_code`, `pos_name`) VALUES (3, 'POS13', 'Facility');
@@ -626,7 +626,7 @@ COMMIT;
 -- Data for table `gimg_ehr`.`type_of_visits`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `mobile_drs`;
+USE `gimg_ehr`;
 INSERT INTO `gimg_ehr`.`type_of_visits` (`tov_id`, `tov_name`) VALUES (1, ' Initial Visit (Home)');
 INSERT INTO `gimg_ehr`.`type_of_visits` (`tov_id`, `tov_name`) VALUES (7, ' Initial Visit (Office)');
 INSERT INTO `gimg_ehr`.`type_of_visits` (`tov_id`, `tov_name`) VALUES (2, ' Initial Visit (Facility)');
