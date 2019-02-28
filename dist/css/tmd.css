@@ -415,6 +415,36 @@ body.print .xrx-info .route-sheet p {
 
 /* over write original css */
 
+
+.skin-blue .main-header .navbar {
+    background-color: #0d61a7 !important;
+    }
+
+.skin-blue .main-header .logo {
+    background-color: #0b5793 !important;
+    }
+
+.main-header .sidebar-toggle {
+    padding: 16px;
+    }
+
+    .main-header .sidebar-toggle:hover {
+        background-color: #0b5793 !important;
+        }
+
+.btn-primary,
+.label-primary {
+    background-color: #0d61a7 !important;
+    }
+
+a {
+    color: #0d61a7;
+    }
+
+a:hover {
+    color: #0b5793;
+}
+
 body {
 	min-height: 100vh !important;
     font-size: 13px !important;
@@ -614,7 +644,7 @@ li.user-header p span a {
 
 table thead,
 table tfoot{
-    background: #548bb8 !important;
+    background: #0d61a7 !important;
     color: #fff !important;
     }
 	
