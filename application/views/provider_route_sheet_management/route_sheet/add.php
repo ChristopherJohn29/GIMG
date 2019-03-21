@@ -79,17 +79,21 @@
 									<div class="col-md-12 form-group {{ form_error('prs_dateOfService') ? 'has-error' : '' }}">
 									
 										<label class="control-label">Date of Service <span>*</span></label>
+										<input type="hidden" name="currentDate" value="{{ current_date }}">
 										<input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask required="true" name="prs_dateOfService">
 										
 									</div>
 
 									<div class="col-md-12 has-error">
 										<span class="help-block">{{ form_error('prs_dateOfService') }}</span>
-									</div>									
+									</div>
+								</div>
+
+								<div class="row">						
 
 									<div class="patient-details-container">
-										
-										<div class="patient-details-item">
+
+										<div class="patient-details-item ui-state-default pull-left" style="border:none;">
 
 											<div class="col-md-12 subheader">
 												<p class="lead">Patient <span class="item-num">1</span> Details</p>

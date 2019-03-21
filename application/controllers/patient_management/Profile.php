@@ -60,6 +60,13 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 					'join_table_condition' => '=',
 					'join_table_value' => 'patient.patient_placeOfService',
 					'join_table_type' => 'left'
+				],
+				[
+					'join_table_name' => 'provider',
+					'join_table_key' => 'provider.provider_id',
+					'join_table_condition' => '=',
+					'join_table_value' => 'patient.patient_supervising_mdID',
+					'join_table_type' => 'left'	
 				]
 			],
 			'where' => [
@@ -122,7 +129,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 			'record_id' => $patient_id,
 			'table_key' => 'patient_id',
 			'save_model' => 'profile_model',
-			'redirect_url' => 'patient_management/profile',
+			'redirect_url_details' => 'patient_management/profile/details/',
 			'validation_group' => $validation_group
 		];
 
@@ -148,6 +155,13 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 					'join_table_condition' => '=',
 					'join_table_value' => 'patient.patient_placeOfService',
 					'join_table_type' => 'left'
+				],
+				[
+					'join_table_name' => 'provider',
+					'join_table_key' => 'provider.provider_id',
+					'join_table_condition' => '=',
+					'join_table_value' => 'patient.patient_supervising_mdID',
+					'join_table_type' => 'left'	
 				]
 			],
 			'where' => [
@@ -221,8 +235,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 		$page_data['transactions'] = $this->transaction_model->get_records_by_join($transaction_params);
 		$page_data['communication_notes'] = $this->communication_notes_model->records($communication_params);
 		$page_data['cpos'] = $this->CPO_model->records($cpo_params);
-
-		$page_data['transaction_entity'] = new \Mobiledrs\entities\patient_management\pages\Transactions_entity(); 
+		$page_data['transaction_entity'] = new \Mobiledrs\entities\patient_management\pages\Transactions_entity();
 
 		$this->twig->view('patient_management/profile/details', $page_data);
 	}
