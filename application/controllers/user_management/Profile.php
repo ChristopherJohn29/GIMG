@@ -31,7 +31,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'user_roleID',
 					'condition' => '<>',
-					'value' => 1
+					'value' => 2000000001
 				]
 			],
 			'return_type' => 'result'
@@ -52,7 +52,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '1'
+					'value' => '2000000001'
 				]
 			]
 		];
@@ -83,7 +83,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '1'
+					'value' => '2000000001'
 				]
 			]
 		];
