@@ -55,7 +55,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('headcount_pt');
 
-		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('user_roleID')];
+		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')];
 
 		$this->twig->view('patient_management/headcount/create', $page_data);
 	}
@@ -73,8 +73,8 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 		$page_data['toDate'] = $this->input->post('toDate');
 		$page_data['year'] = $this->input->post('year');
 		$page_data['type'] = $selected_type;
-		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('user_roleID')];
-		$page_data['typeTitle'] = $this->typeDropdown[$this->session->userdata('user_roleID')][$selected_type];
+		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')];
+		$page_data['typeTitle'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')][$selected_type];
 
 		$newFromDate = $page_data['year'] . '-' . $page_data['month'] . '-' . $page_data['fromDate'];
 		$newToDate = $page_data['year'] . '-' . $page_data['month'] . '-' . $page_data['toDate'];
@@ -186,7 +186,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 		$html = '';
 		$filename = '';
 
-		$selectedTitle = $this->typeDropdown[$this->session->userdata('user_roleID')][$selected_type];
+		$selectedTitle = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')][$selected_type];
 		$selectedTitle = str_replace(' ', '_', $selectedTitle);
 		$selectedTitle = str_replace('/', '', $selectedTitle);
 

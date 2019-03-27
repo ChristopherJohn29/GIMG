@@ -27,7 +27,7 @@ class MY_Controller extends \CI_Controller {
 
         $user_params = [
             'key' => 'user.user_id',
-            'value' => $this->session->userdata('user_id')
+            'value' => $this->session->userdata('gimg_user_id')
         ];
 
         $user_entity = $this->user_model->record($user_params);
@@ -40,7 +40,7 @@ class MY_Controller extends \CI_Controller {
 
 	public function check_permission(string $permission_name)
 	{
-		if ( ! $this->acl->has_permission($this->session->userdata('user_roleID'), $permission_name))
+		if ( ! $this->acl->has_permission($this->session->userdata('gimg_user_roleID'), $permission_name))
 		{
 			return redirect('errors/access_denied');
 		}

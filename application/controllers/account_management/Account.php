@@ -16,7 +16,7 @@ class Account extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('edit_account');
 
-		if ($user_id != $this->session->userdata('user_id'))
+		if ($user_id != $this->session->userdata('gimg_user_id'))
 		{
 			redirect('errors/page_not_found');
 		}
@@ -40,7 +40,7 @@ class Account extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('edit_account');
 
-		if ($user_id != $this->session->userdata('user_id'))
+		if ($user_id != $this->session->userdata('gimg_user_id'))
 		{
 			redirect('errors/page_not_found');
 		}

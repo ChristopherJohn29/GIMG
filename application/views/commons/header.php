@@ -18,16 +18,16 @@
 			
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span class="hidden-xs">{{ session['user_fullname'] }}</span>
+					<span class="hidden-xs">{{ session['gimg_user_fullname'] }}</span>
 				</a>
 				<ul class="dropdown-menu">
 					<!-- User image -->
                     <li class="user-header">
-                        <p>{{ session['user_fullname'] }}<br>
-                        <span>{{ session['user_email'] }}</span>
+                        <p>{{ session['gimg_user_fullname'] }}<br>
+                        <span>{{ session['gimg_user_email'] }}</span>
 
-                        {% if session['user_roleID'] != '1' %}
-                        	<span><a href="{{ site_url("account_management/account/edit/#{ session['user_id'] }") }}" title="Manage Account">Manage Account</a></span></p>
+                        {% if session['gimg_user_roleID'] != '1' %}
+                        	<span><a href="{{ site_url("account_management/account/edit/#{ session['gimg_user_id'] }") }}" title="Manage Account">Manage Account</a></span></p>
                         {% endif %}
                         
                     </li>

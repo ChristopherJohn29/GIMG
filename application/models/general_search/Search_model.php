@@ -16,7 +16,7 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 	public function search() : array
 	{
 		$results = [];
-		$user_access_module = $this->access_modules[$this->session->userdata('user_roleID')];
+		$user_access_module = $this->access_modules[$this->session->userdata('gimg_user_roleID')];
 
 		$searchTerm = $this->input->post('q');
 		if (substr_count($searchTerm, '/') == 2) {
