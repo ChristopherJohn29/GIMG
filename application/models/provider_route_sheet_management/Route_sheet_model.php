@@ -13,7 +13,7 @@ class Route_sheet_model extends \Mobiledrs\core\MY_Models {
 		$this->pt_trans_entity = new \Mobiledrs\entities\patient_management\Transaction_entity();
 	}
 
-	public function insert(array $params) : int
+	public function insert(array $params, string $dbConn = 'gimg_db') : int
 	{
 		$entity = new \Mobiledrs\entities\Entity();
 
@@ -41,7 +41,7 @@ class Route_sheet_model extends \Mobiledrs\core\MY_Models {
 		return $this->db->trans_status() ? $prs_id : 0;
 	}
 
-	public function update(array $params) : bool
+	public function update(array $params, string $dbConn = 'gimg_db') : bool
 	{
 		$entity = new \Mobiledrs\entities\Entity();
 

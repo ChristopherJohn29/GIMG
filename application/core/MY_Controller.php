@@ -46,7 +46,7 @@ class MY_Controller extends \CI_Controller {
 		}
 	}
 
-	public function save_data(array $params)
+	public function save_data(array $params, string $dbConn = 'gimg_db')
 	{
 		if ($this->form_validation->run($params['validation_group']) == FALSE)
         {
@@ -61,13 +61,13 @@ class MY_Controller extends \CI_Controller {
         		'data' => $this->{$params['save_model']}->prepare_data(),
         		'key' => $params['table_key'],
 	        	'value' => $params['record_id']
-        	]);
+        	], $dbConn);
         }
         else
         {
         	$save = $this->{$params['save_model']}->insert([
-        		'data' => $this->{$params['save_model']}->prepare_data()]
-        	);
+        		'data' => $this->{$params['save_model']}->prepare_data()
+            ], $dbConn);
         }
 
         if ($save) 
