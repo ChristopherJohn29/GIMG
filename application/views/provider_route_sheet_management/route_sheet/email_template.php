@@ -7,5 +7,5 @@
 <br>
 <p>
 Regards,<br>
-Wendy Leyva
+Garth Balasico
 </p>

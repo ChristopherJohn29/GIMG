@@ -295,7 +295,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			$html = $this->load->view('provider_route_sheet_management/route_sheet/pdf', $page_data, true);
 			$this->pdf->generate_as_attachement($html, $tmpDir . $filename);
 
-			$this->email->from('info@themobiledrs.com', 'The MobileDrs');
+			$this->email->from('info@global-img.com', 'Global Integrated Medical Group');
 			$this->email->to($page_data['record']->provider_email);
 			$this->email->subject('Your routesheet for the date of ' . $dateOfService);
 			$this->email->message($emailTemplate);
