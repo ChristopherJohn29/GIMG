@@ -50,7 +50,9 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('add_prs');
 
-		$this->twig->view('provider_route_sheet_management/route_sheet/add', []);
+		$this->twig->view('provider_route_sheet_management/route_sheet/add', [
+			'current_date' => date('Y-m-d')
+		]);
 	}
 
 	public function edit(string $prs_id)
@@ -135,6 +137,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 
 		$page_data['lists'] = $this->rs_list_model->get_records_by_join($lists_params);
 		$page_data['tovs'] = $this->tov_model->records($tov_params);
+		$page_data['current_date'] = date('Y-m-d');
 
 		$this->twig->view('provider_route_sheet_management/route_sheet/edit', $page_data);
 	}
@@ -256,10 +259,6 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 					'value' => $prs_id
 				]
 			],
-			'order' => [
-				'key' => 'provider_route_sheet_list.prsl_fromTime',
-				'by' => 'ASC'
-			],
 			'return_type' => 'object'
 		];
 
@@ -296,7 +295,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			$html = $this->load->view('provider_route_sheet_management/route_sheet/pdf', $page_data, true);
 			$this->pdf->generate_as_attachement($html, $tmpDir . $filename);
 
-			$this->email->from('info@themobiledrs.com', 'The MobileDrs');
+			$this->email->from('info@global-img.com', 'Global Integrated Medical Group');
 			$this->email->to($page_data['record']->provider_email);
 			$this->email->subject('Your routesheet for the date of ' . $dateOfService);
 			$this->email->message($emailTemplate);

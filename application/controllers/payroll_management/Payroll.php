@@ -127,7 +127,8 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 
 			$providerDetails = $this->profile_model->record($provider_params);
 			
-			$this->email->from('info@themobiledrs.com', 'The MobileDrs');
+			$this->email->from('info@global-img.com', 'Global Integrated Medical Group');
+			$this->email->reply_to('info@global-img.com', 'Global Integrated Medical Group');
 			$this->email->to($providerDetails->provider_email);
 			$this->email->subject('Your payment summary for ' . $page_data['payPeriod']);
 			$this->email->message($emailTemplate);
@@ -181,8 +182,6 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 			$page_data['fromDate'],
 			$page_data['toDate']
 		);
-
-		$page_data['transaction_entity'] = new \Mobiledrs\entities\patient_management\Transaction_entity();
 
 		if (empty($page_data['provider_transactions']))
 		{

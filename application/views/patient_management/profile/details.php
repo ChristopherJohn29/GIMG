@@ -38,6 +38,10 @@
                                     <th>Place of Service:</th>
                                     <td>{{ record.get_fullpos_name() }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Supervising MD:</th>
+                                    <td>{{ record.get_supervising_md_fullname() }}</td>
+                                </tr>
              				</table>
              			</div>
              			
@@ -163,6 +167,16 @@
                                                         </a>
 
                                                     {% endif %}
+
+                                                    {% if roles_permission_entity.has_permission_name(['mark_service_paid']) and transaction.notCancelledTOV() and transaction.notServicePaid() %}
+
+                                                        <a href="{{ site_url("ajax/patient_management/transaction/mark_service_paid/#{ transaction.pt_id }") }}" data-paid-btn>
+                                                            <button type="button" class="btn btn-primary btn-sm bg-btn-red">
+                                                                <i class="fa fa-money"></i> Mark as Service Paid
+                                                            </button>
+                                                        </a>
+
+                                                    {% endif %}
                                                     
                                                 </div>
 
@@ -223,7 +237,7 @@
     										<th>3rd Month CPO</th>
     										<th>Discharged</th>
     										<th>Date Billed</th>
-                                            <th width="90px">Actions</th>
+                                            <th width="120px">Actions</th>
     									</tr>
     								</thead>
     								
@@ -244,6 +258,12 @@
                                                     {% if roles_permission_entity.has_permission_name(['edit_cpo']) %}
 
                                                         <a href="{{ site_url("patient_management/CPO/edit/#{ record.patient_id }/#{ cpo.ptcpo_id }") }}"><span class="label label-primary">Update</span></a>
+
+                                                    {% endif %}
+
+                                                    {% if roles_permission_entity.has_permission_name(['delete_cpo']) %}
+
+                                                        <a href="{{ site_url("ajax/patient_management/certifications/delete/#{ cpo.ptcpo_id }") }}" data-delete-btn><span class="label label-primary">Delete</span></a>
 
                                                     {% endif %}
 

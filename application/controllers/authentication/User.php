@@ -49,7 +49,7 @@ class User extends CI_Controller {
 					[
 						'key' => 'roles_permission.rp_rolesID',
 						'condition' => '=',
-						'value' => $this->session->userdata('user_roleID')
+						'value' => $this->session->userdata('gimg_user_roleID')
 					]
 				],
 				'return_type' => 'object'
@@ -61,7 +61,7 @@ class User extends CI_Controller {
 			$roles_permission_entity->set_roles_permissions($roles_permissions);
 
 			$this->session->set_userdata(
-				'roles_permission_entity', 
+				'gimg_roles_permission_entity', 
 				$roles_permission_entity->get_serialized()
 			);
 

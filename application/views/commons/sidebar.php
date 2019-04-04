@@ -1,19 +1,25 @@
 <section class="sidebar">
 	<!-- sidebar menu: : style can be found in sidebar.less -->
+    
+	 {{ form_open("general_search", {"class": "sidebar-form"}) }}
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search..." required="true">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+  	</form>
+    
 	<ul class="sidebar-menu" data-widget="tree">
 		<li class="header">MAIN NAVIGATION</li>
 
-		<li class="treeview">
-			<a href="#">
-				<i class="fa fa-dashboard"></i>
-				<span>Dashboard</span>
-				<span class="pull-right-container">
-					<i class="fa fa-angle-left pull-right"></i>
-				</span>
+		<li>
+			<a href="{{ site_url('dashboard') }}">
+				<i class="fa fa-home"></i>
+				<span>Home</span>
 			</a>
-			<ul class="treeview-menu">
-				<li><a href="{{ site_url('dashboard') }}"><i class="fa fa-angle-right"></i> Home</a></li>
-			</ul>
 		</li>
 
 		{% if roles_permission_entity.has_permission_module(['PTPM']) %}
@@ -53,6 +59,10 @@
                     	<li><a href="{{ site_url('patient_management/headcount') }}"><i class="fa fa-angle-right"></i> Headcount </a></li>
 
                 	{% endif %}
+
+                	<li><a href="{{ site_url('patient_management/DFV') }}"><i class="fa fa-angle-right"></i> Due For Visits </a></li>
+
+                	<li><a href="{{ site_url('patient_management/supervising_MD') }}"><i class="fa fa-angle-right"></i> Supervisng MD</a></li>
 					
 				</ul>
 			</li>

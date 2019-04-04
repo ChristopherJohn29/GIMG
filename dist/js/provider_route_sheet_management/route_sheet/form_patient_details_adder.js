@@ -23,6 +23,17 @@ Mobiledrs.Routesheet_form_patient_details_adder = (function() {
 
 		removePatientItem($('.removeItemBtn'));
 
+	    $( ".patient-details-container" ).sortable({
+		  	items: "> .patient-details-item",
+		  	update:  function() {
+				$('.item-num').each(function(index, element) {
+					$(element).html(index + 1);
+				});
+			}
+		});
+
+		$( ".patient-details-container" ).disableSelection();
+
 		getPatientVisitRecord($('.patient-details-item').find('[data-mobiledrs_autosuggest]'));
 	};
 
@@ -65,9 +76,12 @@ Mobiledrs.Routesheet_form_patient_details_adder = (function() {
 	var getPatientVisitRecord = function(el) {
 		$(el).on('blur', function() {
 			var patientID = $(this).prev().val();
-			var tovEl = $(this).closest('.patient-details-item')
+			var tovDrpDwnEl = $(this).closest('.patient-details-item')
 				.find('[name="prsl_tovID[]"]');
-			var patientTovUrl = tovEl.attr('data-tov_url');
+			var tovElCont = tovDrpDwnEl.parent();
+			var patientTovUrl = tovDrpDwnEl.attr('data-tov_url');
+			var tovIDSel = tovElCont.find('[name="prsl_tovIDSel"]').val();
+			var patientTransID = tovElCont.find('#prsl_patientID').val();
 
 			if (patientID == '') {
 				return false;
@@ -76,9 +90,10 @@ Mobiledrs.Routesheet_form_patient_details_adder = (function() {
 			$.ajax({
 				method: 'GET',
 				url: window.location.origin + patientTovUrl,
-				data: '&patientID='+patientID,
+				data: '&patientID='+patientID + '&patientTransID=' + patientTransID,
 				success: function(data) {
-					tovEl.html(data);
+					tovDrpDwnEl.html(data);
+					tovDrpDwnEl.find('[value="' + tovIDSel + '"]').attr('selected', 'true');
 				}
 			});			
 		});
@@ -116,7 +131,7 @@ Mobiledrs.Routesheet_form_patient_details_adder = (function() {
 			patientCount -= 1;
 		});
 	};
-
+	
 	return {
 		init: init
 	};

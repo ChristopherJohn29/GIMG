@@ -13,7 +13,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 		));
 	}
 
-	public function index()
+	public function index(string $highlight = '')
 	{
 		$this->check_permission('list_user');
 
@@ -31,12 +31,13 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'user_roleID',
 					'condition' => '<>',
-					'value' => 1
+					'value' => 2000000001
 				]
 			],
 			'return_type' => 'result'
 		];
 		
+		$page_data['highlight'] = $highlight;
 		$page_data['records'] = $this->profile_model->get_records_by_join($params);
 
 		$this->twig->view('user_management/profile/list', $page_data);
@@ -51,7 +52,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '1'
+					'value' => '2000000001'
 				]
 			]
 		];
@@ -82,7 +83,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '1'
+					'value' => '2000000001'
 				]
 			]
 		];

@@ -2,6 +2,8 @@
 
 namespace Mobiledrs\entities\patient_management;
 
+use \Mobiledrs\entities\patient_management\Type_visit_entity as tv_entity;
+
 class Transaction_entity extends \Mobiledrs\entities\Entity {
 
 	protected $pt_id;
@@ -63,6 +65,7 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	protected $provider_rate_mileage;
 	protected $provider_rate_initialVisitOffice;
 	protected $provider_rate_followUpVisitOffice;
+	protected $provider_supervising_MD;
 
 	protected $patient_id;
 	protected $patient_name;
@@ -75,6 +78,7 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	protected $patient_dateCreated;
 	protected $patient_caregiver_family;
 	protected $patient_placeOfService;
+	protected $patient_supervising_mdID;
 
     public function get_selected_choice_format(string $choice) : string
     {
@@ -94,6 +98,28 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	public function get_aw_ippe_format(string $aw_ippe_code) : string
 	{
 		return ( ! empty($this->pt_aw_ippe_code) && $this->is_aw_performed()) ? 'Yes' : 'No';
+	}
+
+	public function getLatestServiceBilledDate($transactions) : string
+	{
+		$dateList = [];
+
+		foreach($transactions as $transaction) {
+			if (empty($transaction->pt_service_billed)) {
+				continue;
+			}
+
+			$dateList[] = $transaction->pt_service_billed;
+		}
+
+		rsort($dateList);
+
+		return ( ! empty($dateList)) ? parent::get_date_format($dateList[0]) : '';
+	}
+
+	public function is_service_paid() : bool
+	{
+		return ( ! empty($this->pt_service_billed)) && $this->pt_service_billed != '0000-00-00';
 	}
 
 	public function has_performed_in_list(array $transactions) : array
@@ -163,12 +189,6 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 		return ! empty($this->pt_service_billed);
 	}
 
-	public function hasNotAllPaidProvider(array $transactions) : bool
-	{
-		// just check the first row since this is a batch operations
-		return empty($transactions[0]->pt_service_billed);
-	}
-
 	public function get_notBilledVisit(array $transactions) : array
 	{
 		$data = [];
@@ -203,5 +223,15 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 		}
 
 		return $data;
-	}	
+	}
+
+	public function notCancelledTOV() : bool
+	{
+		return $this->pt_tovID != tv_entity::CANCELLED;
+	}
+
+	public function notServicePaid() : bool
+	{
+		return empty($this->pt_service_billed) || $this->pt_service_billed == '0000-00-00';
+	}
 }

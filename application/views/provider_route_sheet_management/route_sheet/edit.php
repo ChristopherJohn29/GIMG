@@ -81,14 +81,17 @@
 									<div class="col-md-12 form-group {{ form_error('prs_dateOfService') ? 'has-error' : '' }}">
 									
 										<label class="control-label">Date of Service <span>*</span></label>
+										<input type="hidden" name="currentDate" value="{{ current_date }}">
 										<input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask required="true" name="prs_dateOfService" value="{{ set_value('prs_dateOfService', record.get_date_format(record.prs_dateOfService)) }}">
 										
 									</div>
 
 									<div class="col-md-12 has-error">
 										<span class="help-block">{{ form_error('prs_dateOfService') }}</span>
-									</div>									
+									</div>		
+								</div>
 
+								<div class="row">
 									<div class="patient-details-container">
 										
 										{% for index, list in lists %}								
@@ -96,7 +99,7 @@
 											<input type="hidden" name="prsl_ids[]" value="{{ list.prsl_id }}">
 											<input type="hidden" name="patientTransDateIDs[]" value="{{ list.prsl_patientTransID }}">
 
-											<div class="patient-details-item" {{ index > 0 ? "data-item-num=#{ index + 1 }" }}>
+											<div class="patient-details-item ui-state-default pull-left" style="border:none;"" {{ index > 0 ? "data-item-num=#{ index + 1 }" }}>
 
 												<div class="col-md-12 subheader">
 													<p class="lead">Patient <span class="item-num">{{ index + 1 }}</span> Details
@@ -162,6 +165,7 @@
 													<label class="control-label">Type of Visit <span>*</span></label>
 													
 													<input type="hidden" name="prsl_tovIDSel" value="{{ list.prsl_tovID }}">
+													<input type="hidden" id="prsl_patientID" value="{{ list.prsl_patientTransID }}">
 													<select class="form-control" style="width: 100%;" required="true" name="prsl_tovID[]" data-tov_url="{{ site_url('ajax/patient_management/profile/get_tov/edit') }}">
 													</select>
 													

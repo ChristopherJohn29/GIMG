@@ -6,22 +6,28 @@ class MY_Models extends \CI_Model {
 	protected $table_name = '';
 	protected $limit = 0;
 	protected $offset = 5;
+	protected $gimg_db = null;
+	protected $gmma_db = null;	
 
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->db = $this->load->database('gimg', TRUE);
+		$this->gimg_db = $this->db;
+		$this->gmma_db = $this->load->database('gmma', TRUE);
 	}
 
-	public function insert(array $params) : int
+	public function insert(array $params, string $dbConn = 'gimg_db') : int
 	{
-		$this->db->insert($this->table_name, $params['data']);
+		$this->$dbConn->insert($this->table_name, $params['data']);
 
-		return $this->db->insert_id();
+		return $this->$dbConn->insert_id();
 	}
 
-	public function update(array $params) : bool
+	public function update(array $params, string $dbConn = 'gimg_db') : bool
 	{
-		return $this->db->update($this->table_name, $params['data'], [$params['key'] => $params['value']]);
+		return $this->$dbConn->update($this->table_name, $params['data'], [$params['key'] => $params['value']]);
 	}
 
 	public function record(array $params)

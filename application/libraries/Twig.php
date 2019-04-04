@@ -19,7 +19,8 @@ class Twig {
 		'site_url',
 		'set_value',
 		'form_error',
-		'form_open_multipart'
+		'form_open_multipart',
+		'highlight_phrase'
 	];
 
 	private $CI = null;
@@ -52,7 +53,7 @@ class Twig {
 		$page_data['base_url'] = base_url();
 		$page_data['session'] = $this->CI->session->userdata();
 		$page_data['states'] = $this->CI->session->flashdata();
-		$page_data['roles_permission_entity'] = unserialize($this->CI->session->userdata('roles_permission_entity'));
+		$page_data['roles_permission_entity'] = unserialize($this->CI->session->userdata('gimg_roles_permission_entity'));
 
 		echo $this->environment->render($filename . '.php', $page_data);
 	}
