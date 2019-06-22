@@ -105,8 +105,8 @@
 					 				<tbody>
 										<tr>
 											<th>G0180</th>
-											<td>485 Signed</td>
-											<td>{{ summary['date_Signed'] }}</td>
+											<td>Certification</td>
+											<td>{{ summary['certification'] }}</td>
 										</tr>
 										
 										<tr>
@@ -126,6 +126,31 @@
 											<td>3rd Month CPO</td>
 											<td>{{ summary['third_Month_CPO'] }}</td>
 										</tr>
+
+										<tr>
+											<th>G0179</th>
+											<td>Certification</td>
+											<td>{{ summary['recertification'] }}</td>
+										</tr>
+										
+										<tr>
+											<th>G0181</th>
+											<td>1st Month CPO</td>
+											<td>{{ summary['Refirst_Month_CPO'] }}</td>
+										</tr>
+										
+										<tr>
+											<th>G0181</th>
+											<td>2nd Month CPO</td>
+											<td>{{ summary['Resecond_Month_CPO'] }}</td>
+										</tr>
+										
+										<tr>
+											<th>G0181</th>
+											<td>3rd Month CPO</td>
+											<td>{{ summary['Rethird_Month_CPO'] }}</td>
+										</tr>
+
 										<tr class="total">
 											<th colspan="2">TOTAL</th>
 											<th>{{ summary['total'] }}</th>
