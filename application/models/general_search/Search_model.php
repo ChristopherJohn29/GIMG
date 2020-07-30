@@ -3,9 +3,9 @@
 class Search_model extends \Mobiledrs\core\MY_Models {
 
 	private $access_modules = [
-		'2000000001' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
-		'2000000002' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
-		'2000000003' => ['patient', 'provider', 'facilities', 'routesheet']
+		'1' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
+		'2' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
+		'3' => ['patient', 'provider', 'facilities', 'routesheet']
 	];
 	
 	public function __construct()
@@ -16,7 +16,7 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 	public function search() : array
 	{
 		$results = [];
-		$user_access_module = $this->access_modules[$this->session->userdata('gimg_user_roleID')];
+		$user_access_module = $this->access_modules[$this->session->userdata('user_roleID')];
 
 		$searchTerm = $this->input->post('q');
 		if (substr_count($searchTerm, '/') == 2) {
@@ -160,8 +160,8 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 		$this->db->or_like('provider.provider_rate_noShowPT', $searchTerm);
 		$this->db->or_like('provider.provider_rate_mileage', $searchTerm);
 		$this->db->or_like('provider.provider_gender', $searchTerm);
-		$this->db->or_like('provider.provider_rate_initialVisitOffice', $searchTerm);
-		$this->db->or_like('provider.provider_rate_followUpVisitOffice', $searchTerm);
+		$this->db->or_like('provider.provider_rate_initialVisit_TeleHealth', $searchTerm);
+		$this->db->or_like('provider.provider_rate_followUpVisit_TeleHealth', $searchTerm);
 
 		$query = $this->db->get('provider');
 

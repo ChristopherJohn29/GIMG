@@ -18,6 +18,8 @@ class MY_Controller extends \CI_Controller {
             'form_validation'
 		));
 
+        $this->load->model('user_management/logs_model');
+
         $this->form_validation->set_error_delimiters('', '');
 	}
 
@@ -27,7 +29,7 @@ class MY_Controller extends \CI_Controller {
 
         $user_params = [
             'key' => 'user.user_id',
-            'value' => $this->session->userdata('gimg_user_id')
+            'value' => $this->session->userdata('user_id')
         ];
 
         $user_entity = $this->user_model->record($user_params);
@@ -40,13 +42,13 @@ class MY_Controller extends \CI_Controller {
 
 	public function check_permission(string $permission_name)
 	{
-		if ( ! $this->acl->has_permission($this->session->userdata('gimg_user_roleID'), $permission_name))
+		if ( ! $this->acl->has_permission($this->session->userdata('user_roleID'), $permission_name))
 		{
 			return redirect('errors/access_denied');
 		}
 	}
 
-	public function save_data(array $params, string $dbConn = 'gimg_db')
+	public function save_data(array $params, $redirect = true)
 	{
 		if ($this->form_validation->run($params['validation_group']) == FALSE)
         {
@@ -61,13 +63,13 @@ class MY_Controller extends \CI_Controller {
         		'data' => $this->{$params['save_model']}->prepare_data(),
         		'key' => $params['table_key'],
 	        	'value' => $params['record_id']
-        	], $dbConn);
+        	]);
         }
         else
         {
         	$save = $this->{$params['save_model']}->insert([
-        		'data' => $this->{$params['save_model']}->prepare_data()
-            ], $dbConn);
+        		'data' => $this->{$params['save_model']}->prepare_data()]
+        	);
         }
 
         if ($save) 
@@ -79,20 +81,21 @@ class MY_Controller extends \CI_Controller {
         	$this->session->set_flashdata('danger', $this->lang->line('danger_save'));
         }
 
-        if (isset($params['redirect_url']))
+        if (isset($params['redirect_url']) && $redirect)
         {
             return redirect($params['redirect_url']);
         }
 
-        if (isset($params['redirect_url_details'])) 
+        if (isset($params['redirect_url_details']) && $redirect) 
         {
             $recordID = ( ! empty($params['record_id'])) ? $params['record_id'] : $save;
-            $redirect_url = $params['redirect_url_details'] . $recordID; 
+            $redirect_url = $params['redirect_url_details'] . $recordID;
+
             return redirect($redirect_url);   
         }
 	}
 
-	public function save_sub_data(array $params)
+	public function save_sub_data(array $params, $redirect = true)
 	{
 		if ($this->form_validation->run($params['validation_group']) == FALSE)
         {
@@ -127,7 +130,9 @@ class MY_Controller extends \CI_Controller {
         	$this->session->set_flashdata('danger', $this->lang->line('danger_save'));
         }
 
-        return redirect($params['redirect_url']);
+        if ($redirect) {
+            return redirect($params['redirect_url']);
+        }
 	}
 
     public function make_paid(array $params)

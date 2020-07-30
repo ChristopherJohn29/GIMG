@@ -6,7 +6,7 @@ use \Mobiledrs\entities\patient_management\Transaction_entity;
 
 class Superbill extends \Mobiledrs\core\MY_Controller {
 
-	private $transactions = ['aw', 'hv', 'fv'];
+	private $transactions = ['aw', 'hv', 'fv', 'tv'];
 
 	public function __construct()
 	{
@@ -15,9 +15,12 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 		$this->load->model(array(
 			'patient_management/CPO_model',
 			'patient_management/profile_model',
+			'provider_management/supervising_md_model',
 			'patient_management/transaction_model',
 			'superbill_management/superbill_model'
 		));
+
+		$this->load->library('Date_formatter');
 	}
 
 	public function index()
@@ -26,6 +29,7 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 			'generate_sbawr',
 			'generate_sbhvr',
 			'generate_sbfvr',
+			'generate_sbtv',
 			'generate_sbcpor'
 		];
 
@@ -43,7 +47,8 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 			'generate_sbawr',
 			'generate_sbhvr',
 			'generate_sbfvr',
-			'generate_sbcpor'
+			'generate_sbcpor',
+			'generate_sbtv'
 		];
 
 		foreach ($roles_permissions as $roles_permission)
@@ -53,13 +58,13 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 
 		$page_data['fromDate'] = implode('/', [
 			$this->input->post('year'),
-			$this->input->post('month'),
+			$this->input->post('fromMonth'),
 			$this->input->post('fromDate')
 		]);
 
 		$page_data['toDate'] = implode('/', [
 			$this->input->post('year'),
-			$this->input->post('month'),
+			$this->input->post('toMonth'),
 			$this->input->post('toDate')
 		]);
 
@@ -82,6 +87,7 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 			'generate_sbawr',
 			'generate_sbhvr',
 			'generate_sbfvr',
+			'generate_sbtv',
 			'generate_sbcpor'
 		];
 
@@ -109,13 +115,14 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 	private function get_superbill_data(
 		string $type,
 		string $fromDate,
-		string $toDate
+		string $toDate,
+		array $ids = []
 	)
 	{
 		if (in_array($type, $this->transactions))
 		{
 			$type_of_visit = [];
-			if ($type == 'hv' || $type == 'fv')
+			if ($type == 'hv' || $type == 'fv' || $type == 'tv')
 			{
 				$type_of_visit = (new Superbill_entity())->get_sel_type_visit($type);
 			}
@@ -124,20 +131,21 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 				$fromDate,
 				$toDate,
 				empty($type_of_visit) ? [] : $type_of_visit,
-				$type
+				$type,
+				$ids
 			);
 
 			$page_data['transaction_entity'] = new Transaction_entity();
 			$page_data['POS_entity'] = new POS_entity();
 			$page_data['transactions'] = '';
 
-			if (in_array($type, ['hv', 'fv']))
+			if (in_array($type, ['hv', 'fv', 'tv']))
 			{
 				$page_data['transactions'] = $page_data['transaction_entity']->get_notBilledVisit($transactions);
 			}
 			else if ($type == 'aw') 
 			{
-				$page_data['transactions'] = $page_data['transaction_entity']->get_notBilledAW($transactions);				
+				$page_data['transactions'] = $page_data['transaction_entity']->get_notBilledAW($transactions);
 			}
 
 			if ( ! empty($page_data['transactions']))
@@ -147,17 +155,21 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 				$summary_func = 'compute_transaction_' . $type . '_summary';
 
 				$page_data['summary'] = $superbill_entity->$summary_func();
+
+				$page_data['newTransactions'] = $this->supervising_md_model->get_supervisingMD_details($page_data['transactions']);
 			}
 			else
 			{
 				$page_data['summary'] = [];
+				$page_data['newTransactions'] = [];
 			}
 		}
 		else if ($type == 'cpo')
 		{
 			$page_data = $this->superbill_model->get_CPO(
 				$fromDate,
-				$toDate
+				$toDate,
+				$ids
 			);
 
 			if ( ! empty($page_data['CPOs']))
@@ -187,6 +199,7 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 		$roles_permissions = [
 			'generate_sbawr',
 			'generate_sbhvr',
+			'generate_sbtv',
 			'generate_sbfvr',
 			'generate_sbcpor'
 		];
@@ -221,6 +234,14 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 				'data' => 'pt_id',
 				'columnID' => 'pt_id'
 			],
+			'tv' => [
+				'column' => 'pt_visitBilled',
+				'filename' => 'Superbill_TeleHealth_Visits_',
+				'model' => 'transaction_model',
+				'html' => 'tv',
+				'data' => 'pt_id',
+				'columnID' => 'pt_id'
+			],
 			'cpo' => [
 				'column' => 'ptcpo_dateBilled',
 				'filename' => 'Superbill_CPO_',
@@ -231,7 +252,12 @@ class Superbill extends \Mobiledrs\core\MY_Controller {
 			]
 		];
 
-		$page_data = $this->get_superbill_data($type, $fromDate, $toDate);
+		$page_data = $this->get_superbill_data(
+			$type, 
+			$fromDate, 
+			$toDate,
+			$this->input->post($types[$type]['data'])
+		);
 		$page_data['notes'] = $this->input->post('notes');
 		$page_data['date_billed'] = date('m/d/y');
 

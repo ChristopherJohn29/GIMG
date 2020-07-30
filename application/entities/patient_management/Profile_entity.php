@@ -15,7 +15,9 @@ class Profile_entity extends \Mobiledrs\entities\Entity {
 	protected $patient_dateCreated;
 	protected $patient_caregiver_family;
 	protected $patient_placeOfService;
-	protected $patient_supervising_mdID;
+	protected $patient_pharmacy;
+	protected $patient_pharmacyPhone;
+	protected $patient_drug_allergy;
 
 	protected $hhc_id;
 	protected $hhc_name;
@@ -50,8 +52,8 @@ class Profile_entity extends \Mobiledrs\entities\Entity {
 	protected $provider_rate_acp;
 	protected $provider_rate_noShowPT;
 	protected $provider_rate_mileage;
-	protected $provider_rate_initialVisitOffice;
-	protected $provider_rate_followUpVisitOffice;
+	protected $provider_rate_initialVisit_TeleHealth;
+	protected $provider_rate_followUpVisit_TeleHealth;
 	protected $provider_supervising_MD;
 
 	public function get_selected_gender(string $gender) : string

@@ -14,7 +14,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 	];
 
 	private $typeDropdown = [
-		'2000000001' => [
+		'1' => [
 			'1' => 'Total Patients',
             '2' => 'Unbilled CPO',
             '3' => 'Unbilled AW',
@@ -23,7 +23,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
             '6' => 'Blank / Empty Diagnoses',
             '7' => 'No Show Patients'
 		],
-		'2000000002' => [
+		'2' => [
 			'1' => 'Total Patients',
             '2' => 'Unbilled CPO',
             '3' => 'Unbilled AW',
@@ -32,11 +32,25 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
             '6' => 'Blank / Empty Diagnoses',
             '7' => 'No Show Patients'
 		],
-		'2000000003' => [
+		'3' => [
 			'1' => 'Total Patients',
 			'6' => 'Blank / Empty Diagnoses',
 			'7' => 'No Show Patients'
 		]
+	];
+
+	private $tableColumns = [
+		'1' => 'patient_name',
+        '2' => 'provider',
+        '3' => 'pt_supervising_mdID',
+        '4' => 'dateOfService',
+        '5' => 'deductible',
+        '6' => 'home_health',
+        '7' => 'paid',
+        '8' => 'aw_billed',
+        '9' => 'visit_billed',
+        '10' => 'cpo_billed',
+        '11' => 'actions'
 	];
 	
 	public function __construct()
@@ -47,7 +61,8 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 			'patient_management/transaction_model',
 			'patient_management/headcount_model',
 			'patient_management/CPO_model',
-			'payroll_management/payroll_model'			
+			'payroll_management/payroll_model',
+			'provider_management/supervising_md_model'		
 		));
 	}
 
@@ -55,7 +70,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('headcount_pt');
 
-		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')];
+		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('user_roleID')];
 
 		$this->twig->view('patient_management/headcount/create', $page_data);
 	}
@@ -73,8 +88,8 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 		$page_data['toDate'] = $this->input->post('toDate');
 		$page_data['year'] = $this->input->post('year');
 		$page_data['type'] = $selected_type;
-		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')];
-		$page_data['typeTitle'] = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')][$selected_type];
+		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('user_roleID')];
+		$page_data['typeTitle'] = $this->typeDropdown[$this->session->userdata('user_roleID')][$selected_type];
 
 		$newFromDate = $page_data['year'] . '-' . $page_data['month'] . '-' . $page_data['fromDate'];
 		$newToDate = $page_data['year'] . '-' . $page_data['month'] . '-' . $page_data['toDate'];
@@ -118,7 +133,10 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 				$page_data['year']
 			);
 
-			$page_data['headcounts'] = $this->headcount_model->$selected_func();
+			$page_data['headcounts'] = $this->supervising_md_model->get_supervisingMD_details(
+				$this->headcount_model->$selected_func()
+			);
+			
 			$page_data['headcounts_total'] = count($page_data['headcounts']);
 			
 			$page_data['viewName'] = 'list';
@@ -173,7 +191,11 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 		}
 	}
 
-	public function pdf(string $type, string $month, string $fromDate, string $toDate, string $year)
+	public function pdf(
+		string $type, string $month, string $fromDate, 
+		string $toDate, string $year, string $tableColumndID = null, 
+		string $sortDirection = null
+	)
 	{
 		$this->load->library(['PDF', 'Date_formatter']);
 
@@ -186,7 +208,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 		$html = '';
 		$filename = '';
 
-		$selectedTitle = $this->typeDropdown[$this->session->userdata('gimg_user_roleID')][$selected_type];
+		$selectedTitle = $this->typeDropdown[$this->session->userdata('user_roleID')][$selected_type];
 		$selectedTitle = str_replace(' ', '_', $selectedTitle);
 		$selectedTitle = str_replace('/', '', $selectedTitle);
 
@@ -227,7 +249,11 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 
 			$this->headcount_model->prepare_dateRange($month, $fromDate, $toDate, $year);
 
-			$page_data['headcounts'] = $this->headcount_model->$selected_func();
+			$page_data['headcounts'] = $this->headcount_model->$selected_func(
+				$this->tableColumns[$tableColumndID],
+				$sortDirection
+			);
+
 			$page_data['headcounts_total'] = count($page_data['headcounts']);
 
 			$html = $this->load->view('patient_management/headcount/pdf', $page_data, true);

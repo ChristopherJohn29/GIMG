@@ -1,9 +1,9 @@
 <!-- Logo -->
 <a href="{{ site_url('dashboard') }}" class="logo">
 	<!-- mini logo for sidebar mini 50x50 pixels -->
-	<span class="logo-mini"><b>GIMG</b></span>
+	<span class="logo-mini"><b>TMD</b></span>
 	<!-- logo for regular state and mobile devices -->
-	<span class="logo-lg"><img src="{{ base_url }}dist/img/gimg_logo_white.png"></span>
+	<span class="logo-lg"><img src="{{ base_url }}dist/img/tmd_logo_white.png"></span>
 </a>
 
 <!-- Header Navbar: style can be found in header.less -->
@@ -18,16 +18,16 @@
 			
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span class="hidden-xs">{{ session['gimg_user_fullname'] }}</span>
+					<span class="hidden-xs">{{ session['user_fullname'] }}</span>
 				</a>
 				<ul class="dropdown-menu">
 					<!-- User image -->
                     <li class="user-header">
-                        <p>{{ session['gimg_user_fullname'] }}<br>
-                        <span>{{ session['gimg_user_email'] }}</span>
+                        <p>{{ session['user_fullname'] }}<br>
+                        <span>{{ session['user_email'] }}</span>
 
-                        {% if session['gimg_user_roleID'] != '1' %}
-                        	<span><a href="{{ site_url("account_management/account/edit/#{ session['gimg_user_id'] }") }}" title="Manage Account">Manage Account</a></span></p>
+                        {% if session['user_roleID'] != '1' %}
+                        	<span><a href="{{ site_url("account_management/account/edit/#{ session['user_id'] }") }}" title="Manage Account">Manage Account</a></span></p>
                         {% endif %}
                         
                     </li>

@@ -113,13 +113,13 @@
 
 									{% endif %}
 
-									{% if provider_payment_summary['initial_visit_office']['total'] != 0 %}
+									{% if provider_payment_summary['initial_visit_telehealth']['total'] != 0 %}
 										
 										<tr>
 											<th><strong>Initial Visit (Office)</strong></th>
-											<td>{{ provider_payment_summary['initial_visit_office']['qty'] }}</td>
-											<td>${{ provider_payment_summary['initial_visit_office']['amount'] != '' ? provider_payment_summary['initial_visit_office']['amount'] : 0 }}</td>
-											<td>${{ provider_payment_summary['initial_visit_office']['total'] }}</td>
+											<td>{{ provider_payment_summary['initial_visit_telehealth']['qty'] }}</td>
+											<td>${{ provider_payment_summary['initial_visit_telehealth']['amount'] != '' ? provider_payment_summary['initial_visit_telehealth']['amount'] : 0 }}</td>
+											<td>${{ provider_payment_summary['initial_visit_telehealth']['total'] }}</td>
 										</tr>
 
 									{% endif %}
@@ -146,13 +146,13 @@
 
 									{% endif %}
 
-									{% if provider_payment_summary['follow_up_office']['total'] != 0 %}
+									{% if provider_payment_summary['follow_up_telehealth']['total'] != 0 %}
 										
 										<tr>
 											<th><strong>Follow-Up Visit (Office)</strong></th>
-											<td>{{ provider_payment_summary['follow_up_office']['qty'] }}</td>
-											<td>${{ provider_payment_summary['follow_up_office']['amount'] != '' ? provider_payment_summary['follow_up_office']['amount'] : 0 }}</td>
-											<td>${{ provider_payment_summary['follow_up_office']['total'] }}</td>
+											<td>{{ provider_payment_summary['follow_up_telehealth']['qty'] }}</td>
+											<td>${{ provider_payment_summary['follow_up_telehealth']['amount'] != '' ? provider_payment_summary['follow_up_telehealth']['amount'] : 0 }}</td>
+											<td>${{ provider_payment_summary['follow_up_telehealth']['total'] }}</td>
 										</tr>
 
 									{% endif %}
@@ -182,9 +182,9 @@
 									</tr>
 									<tr>
 										<td><strong>Mileage</strong></td>
-										<td>{{ provider_payment_summary['mileage']['qty'] }}</td>
-										<td>${{ provider_payment_summary['mileage']['amount'] }}</td>
-										<td>${{ provider_payment_summary['mileage']['total'] }}</td>
+										<td>{{ mileageQty ?? provider_payment_summary['mileage']['qty'] }}</td>
+										<td>${{ mileageAmount ?? provider_payment_summary['mileage']['amount'] }}</td>
+										<td>${{ mileageTotal ?? provider_payment_summary['mileage']['total'] }}</td>
 									</tr>
 									<tr>
 										<td colspan="3"><strong>{{ others_field }}</strong></td>
@@ -192,7 +192,7 @@
 									</tr>
 									<tr class="total">
 										<td colspan="3"><strong>Total</strong></td>
-										<td>${{ total }}</td>
+										<td>${{ total|number_format(2) }}</td>
 									</tr>
 								</tbody>
 								

@@ -4,7 +4,8 @@
 
 {% 
   set scripts = [
-    'dist/js/payroll_management/payroll/details'
+    'dist/js/payroll_management/payroll/details',
+    'dist/js/payroll_management/payroll/mileageCalc'
   ]
 %}
 
@@ -157,13 +158,13 @@
 
 											{% endif %}
 
-											{% if provider_payment_summary['initial_visit_office']['total'] != 0 %}
+											{% if provider_payment_summary['initial_visit_telehealth']['total'] != 0 %}
 
 												<tr>
-													<th>Initial Visit (Office)</th>
-													<td>{{ provider_payment_summary['initial_visit_office']['qty'] }}</td>
-													<td>${{ provider_payment_summary['initial_visit_office']['amount'] != '' ? provider_payment_summary['initial_visit_office']['amount'] : 0 }}</td>
-													<td>${{ provider_payment_summary['initial_visit_office']['total'] }}</td>
+													<th>Initial Visit (TeleHealth)</th>
+													<td>{{ provider_payment_summary['initial_visit_telehealth']['qty'] }}</td>
+													<td>${{ provider_payment_summary['initial_visit_telehealth']['amount'] != '' ? provider_payment_summary['initial_visit_telehealth']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['initial_visit_telehealth']['total'] }}</td>
 												</tr>
 
 											{% endif %}
@@ -190,13 +191,13 @@
 
 											{% endif %}
 
-											{% if provider_payment_summary['follow_up_office']['total'] != 0 %}
+											{% if provider_payment_summary['follow_up_telehealth']['total'] != 0 %}
 
 												<tr>
-													<th>Follow-Up Visit (Office)</th>
-													<td>{{ provider_payment_summary['follow_up_office']['qty'] }}</td>
-													<td>${{ provider_payment_summary['follow_up_office']['amount'] != '' ? provider_payment_summary['follow_up_office']['amount'] : 0 }}</td>
-													<td>${{ provider_payment_summary['follow_up_office']['total'] }}</td>
+													<th>Follow-Up Visit (TeleHealth)</th>
+													<td>{{ provider_payment_summary['follow_up_telehealth']['qty'] }}</td>
+													<td>${{ provider_payment_summary['follow_up_telehealth']['amount'] != '' ? provider_payment_summary['follow_up_telehealth']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['follow_up_telehealth']['total'] }}</td>
 												</tr>
 
 											{% endif %}
@@ -226,9 +227,18 @@
 											</tr>
 											<tr>
 												<th>Mileage</th>
-												<td>{{ provider_payment_summary['mileage']['qty'] }}</td>
-												<td>{{ provider_payment_summary['mileage']['amount'] }}¢</td>
-												<td>${{ provider_payment_summary['mileage']['total'] }}</td>
+												<td>
+													<input type="number" id="mileageQty" name="mileageQty" value="{{ provider_payment_summary['mileage']['qty'] }}" style="width:50%;">
+												</td>
+												<td>
+													<input type="hidden" id="mileageAmount" name="mileageAmount" value="{{ provider_payment_summary['mileage']['amount'] }}">
+													<span id="mileageAmountOutput">{{ provider_payment_summary['mileage']['amount'] }}</span>¢
+												</td>
+												<td>
+													<input type="hidden" name="mileageTotal" id="mileageTotal" value="{{ provider_payment_summary['mileage']['total'] }}">
+
+													$<span id="mileageTotalOutput">{{ provider_payment_summary['mileage']['total'] }}</span>
+												</td>
 											</tr>
 											<tr>
 												<th><input type="text" name="others_field" class="form-control"></th>
@@ -247,8 +257,8 @@
 											</tr>
 											<tr class="total">
 												<th colspan="3">Total</th>
-												<input type="hidden" name="total" value="{{ provider_payment_summary['total_salary'] }}">
-												<td>$ <span class="total-amount">{{ provider_payment_summary['total_salary'] }}</span></td>
+												<input type="hidden" id="grandTotal" name="total" value="{{ provider_payment_summary['total_salary'] }}">
+												<td>$ <span class="total-amount">{{ provider_payment_summary['total_salary']|number_format(2) }}</span></td>
 											</tr>
 										</tbody>
 										

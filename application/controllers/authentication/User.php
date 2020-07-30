@@ -11,7 +11,8 @@ class User extends CI_Controller {
 
 		$this->load->model(array(
 			'authentication/user_model',
-			'user_management/roles_permission_model'
+			'user_management/roles_permission_model',
+			'user_management/logs_model'
 		));
 
 		$this->load->library('twig');
@@ -49,7 +50,7 @@ class User extends CI_Controller {
 					[
 						'key' => 'roles_permission.rp_rolesID',
 						'condition' => '=',
-						'value' => $this->session->userdata('gimg_user_roleID')
+						'value' => $this->session->userdata('user_roleID')
 					]
 				],
 				'return_type' => 'object'
@@ -61,9 +62,20 @@ class User extends CI_Controller {
 			$roles_permission_entity->set_roles_permissions($roles_permissions);
 
 			$this->session->set_userdata(
-				'gimg_roles_permission_entity', 
+				'roles_permission_entity', 
 				$roles_permission_entity->get_serialized()
 			);
+
+			if ($this->session->userdata('user_roleID') != '1') {
+				$this->logs_model->insert([
+					'data' => [
+						'user_log_userID' => $this->session->userdata('user_id'),
+						'user_log_time' => date('H:m:s'),
+						'user_log_date' => date('Y-m-d'),
+						'user_log_description' => 'Log in to the system.'
+					]
+				]);
+			}
 
 			redirect('dashboard');
 		}
@@ -80,6 +92,17 @@ class User extends CI_Controller {
 
 	public function logout()
 	{
+		if ($this->session->userdata('user_roleID') != '1') {
+			$this->logs_model->insert([
+				'data' => [
+					'user_log_userID' => $this->session->userdata('user_id'),
+					'user_log_time' => date('H:m:s'),
+					'user_log_date' => date('Y-m-d'),
+					'user_log_description' => 'Log out to the system.'
+				]
+			]);
+		}
+
 		$this->session->sess_destroy();
 
 		redirect('authentication/user');

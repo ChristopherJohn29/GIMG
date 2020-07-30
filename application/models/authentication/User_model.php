@@ -15,8 +15,18 @@ class User_model extends \Mobiledrs\core\MY_Models {
 	public function verify() : bool
 	{
 		$user_params = [
-			'key' => 'user_email',
-			'value' => $this->input->post('user_email')
+			'where' => [
+				[
+					'key' => 'user_email',
+					'condition' => '=',
+					'value' => $this->input->post('user_email')
+				],
+				[
+					'key' => 'user_archive',
+					'condition' => '=',
+					'value' => NULL
+				]
+			]
 		];
 
 		$user_entity = $this->record($user_params);
@@ -35,10 +45,10 @@ class User_model extends \Mobiledrs\core\MY_Models {
 			$this->update($user_record_params);
 
 			$data = [
-				'gimg_user_id' => $user_entity->user_id,
-		        'gimg_user_fullname' => $user_entity->get_fullname(),
-		        'gimg_user_email' => $user_entity->user_email,
-		        'gimg_user_roleID' => $user_entity->user_roleID
+				'user_id' => $user_entity->user_id,
+		        'user_fullname' => $user_entity->get_fullname(),
+		        'user_email' => $user_entity->user_email,
+		        'user_roleID' => $user_entity->user_roleID
 			];
 
 			$this->session->set_userdata($data);

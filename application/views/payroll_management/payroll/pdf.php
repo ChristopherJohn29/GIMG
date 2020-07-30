@@ -103,13 +103,13 @@
 
 					<?php endif; ?>
 
-					<?php if ($provider_payment_summary['initial_visit_office']['total'] != 0 ): ?>
+					<?php if ($provider_payment_summary['initial_visit_telehealth']['total'] != 0 ): ?>
 
 						<tr>
 							<th style="border-bottom: 1px solid #d2d6de;">Initial Visit (Office)</th>
-							<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['initial_visit_office']['qty'] ?></td>
-							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['initial_visit_office']['amount'] != '' ? $provider_payment_summary['initial_visit_office']['amount'] : 0 ?></td>
-							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['initial_visit_office']['total'] ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['initial_visit_telehealth']['qty'] ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['initial_visit_telehealth']['amount'] != '' ? $provider_payment_summary['initial_visit_telehealth']['amount'] : 0 ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['initial_visit_telehealth']['total'] ?></td>
 						</tr>
 
 					<?php endif; ?>
@@ -136,13 +136,13 @@
 
 					<?php endif; ?>
 
-					<?php if ($provider_payment_summary['follow_up_office']['total'] != 0 ): ?>
+					<?php if ($provider_payment_summary['follow_up_telehealth']['total'] != 0 ): ?>
 
 						<tr>
 							<th style="border-bottom: 1px solid #d2d6de;">Follow-Up Visit (Office)</th>
-							<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['follow_up_office']['qty'] ?></td>
-							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['follow_up_office']['amount'] != '' ? $provider_payment_summary['follow_up_office']['amount'] : 0 ?></td>
-							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['follow_up_office']['total'] ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['follow_up_telehealth']['qty'] ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['follow_up_telehealth']['amount'] != '' ? $provider_payment_summary['follow_up_telehealth']['amount'] : 0 ?></td>
+							<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['follow_up_telehealth']['total'] ?></td>
 						</tr>
 
 					<?php endif; ?>
@@ -172,9 +172,9 @@
 					</tr>
 					<tr>
 						<th style="border-bottom: 1px solid #d2d6de;">Mileage</th>
-						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['mileage']['qty'] ?></td>
-						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['mileage']['amount'] ?>¢</td>
-						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['mileage']['total'] ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $mileageQty ?? $provider_payment_summary['mileage']['qty'] ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $mileageAmount ?? $provider_payment_summary['mileage']['amount'] ?>¢</td>
+						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $mileageTotal ?? $provider_payment_summary['mileage']['total'] ?></td>
 					</tr>
 					<tr>
 						<td colspan="3" style="border-bottom: 1px solid #d2d6de;"><strong><?php echo $others_field; ?></strong></td>
@@ -182,7 +182,7 @@
 					</tr>
 					<tr>
 						<td colspan="3" style="border-bottom: 1px solid #d2d6de;"><span style="font-size:12px">Grand Total</span></td>
-						<td style="border-bottom: 1px solid #d2d6de;"><span style="font-size:12px; font-weight:bold;">$<?php echo $total; ?></span></td>
+						<td style="border-bottom: 1px solid #d2d6de;"><span style="font-size:10px; font-weight:bold;">$<?php echo number_format($total, 2); ?></span></td>
 					</tr>
 				</tbody>
 			</table>

@@ -13,7 +13,8 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			'patient_management/Type_visit_model' => 'tov_model',
 			'patient_management/Profile_model' => 'pt_model',
 			'patient_management/transaction_model' => 'pat_trans_model',
-			'provider_management/profile_model' => 'pr_model'
+			'provider_management/profile_model' => 'pr_model',
+			'provider_management/supervising_md_model' => 'pr_supervisingMD_model'
 		));
 
 		$this->load->library('Time_converter');
@@ -37,6 +38,13 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 				'key' => 'provider_route_sheet.prs_dateOfService',
 				'by' => 'DESC'
 			],
+			'where' => [
+				[
+					'key' => 'provider_route_sheet.prs_archive',
+					'condition' => '=',
+	        		'value' => NULL
+        		]
+			],
 			'return_type' => 'object'
 		];
 
@@ -50,8 +58,11 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('add_prs');
 
+		$supervisingMDs = $this->pr_supervisingMD_model->supervisingMD_records(); 
+
 		$this->twig->view('provider_route_sheet_management/route_sheet/add', [
-			'current_date' => date('Y-m-d')
+			'current_date' => date('Y-m-d'),
+			'supervisingMDs' => $supervisingMDs
 		]);
 	}
 
@@ -101,6 +112,13 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 					'join_table_condition' => '=',
 					'join_table_value' => 'provider_route_sheet_list.prsl_tovID',
 					'join_table_type' => 'inner'
+				],
+				[
+					'join_table_name' => 'patient_transactions',
+					'join_table_key' => 'patient_transactions.pt_id',
+					'join_table_condition' => '=',
+					'join_table_value' => 'provider_route_sheet_list.prsl_patientTransID',
+					'join_table_type' => 'inner'
 				]
 			],
 			'where' => [
@@ -139,6 +157,8 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 		$page_data['tovs'] = $this->tov_model->records($tov_params);
 		$page_data['current_date'] = date('Y-m-d');
 
+		$page_data['supervisingMDs'] = $this->pr_supervisingMD_model->supervisingMD_records(); 
+
 		$this->twig->view('provider_route_sheet_management/route_sheet/edit', $page_data);
 	}
 
@@ -158,6 +178,11 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 						'key' => ' provider_route_sheet.prs_providerID',
 						'condition' => '=',
 						'value' => $this->input->post('prs_providerID')
+					],
+					[
+						'key' => ' provider_route_sheet.prs_archive',
+						'condition' => '',
+						'value' => 'IS NOT NULL'
 					],
 					[
 						'key' => ' provider_route_sheet.prs_dateOfService',
@@ -185,7 +210,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			'validation_group' => 'provider_route_sheet_management/route_sheet/save'
 		];
 
-		$this->save_data($params);
+		parent::save_data($params);
 	}
 
 	public function details(string $prs_id)
@@ -250,6 +275,13 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 					'join_table_condition' => '=',
 					'join_table_value' => 'provider_route_sheet_list.prsl_tovID',
 					'join_table_type' => 'inner'
+				],
+				[
+					'join_table_name' => 'patient_transactions',
+					'join_table_key' => 'patient_transactions.pt_id',
+					'join_table_condition' => '=',
+					'join_table_value' => 'provider_route_sheet_list.prsl_patientTransID',
+					'join_table_type' => 'inner'
 				]
 			],
 			'where' => [
@@ -269,7 +301,9 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			redirect('errors/page_not_found');
 		}
 
-		$page_data['lists'] = $this->rs_list_model->get_records_by_join($lists_params);
+		$page_data['lists'] = $this->pr_supervisingMD_model->get_supervisingMD_details(
+			$this->rs_list_model->get_records_by_join($lists_params)
+		);
 
 		return $page_data;
 	}
@@ -296,7 +330,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 			$this->pdf->page_orientation = 'L';
 			$this->pdf->generate_as_attachement($html, $tmpDir . $filename);
 
-			$this->email->from('info@global-img.com', 'Global Integrated Medical Group');
+			$this->email->from('info@themobiledrs.com', 'The MobileDrs');
 			$this->email->to($page_data['record']->provider_email);
 			$this->email->subject('Your routesheet for the date of ' . $dateOfService);
 			$this->email->message($emailTemplate);
@@ -321,7 +355,7 @@ class Route_sheet extends \Mobiledrs\core\MY_Controller {
 
 		} elseif ($submit_type == 'pdf') {
 			$html = $this->load->view('provider_route_sheet_management/route_sheet/pdf', $page_data, true);
-
+			$this->pdf->page_orientation = 'L';
 			$this->pdf->generate($html, $filename);
 		}
 	}

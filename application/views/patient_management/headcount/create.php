@@ -6,6 +6,7 @@
   set scripts = [
     'dist/js/libraries/year_incrementor',
     'dist/js/patient_management/headcount/list',
+    'dist/js/libraries/sorting',
     'dist/js/libraries/month_day_incrementor'
   ]
 %}

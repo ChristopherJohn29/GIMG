@@ -6,33 +6,41 @@ class MY_Models extends \CI_Model {
 	protected $table_name = '';
 	protected $limit = 0;
 	protected $offset = 5;
-	protected $gimg_db = null;
-	protected $gmma_db = null;	
 
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->db = $this->load->database('gimg', TRUE);
-		$this->gimg_db = $this->db;
-		$this->gmma_db = $this->load->database('gmma', TRUE);
 	}
 
-	public function insert(array $params, string $dbConn = 'gimg_db') : int
+	public function insert(array $params) : int
 	{
-		$this->$dbConn->insert($this->table_name, $params['data']);
+		$this->db->insert($this->table_name, $params['data']);
 
-		return $this->$dbConn->insert_id();
+		return $this->db->insert_id();
 	}
 
-	public function update(array $params, string $dbConn = 'gimg_db') : bool
+	public function update(array $params) : bool
 	{
-		return $this->$dbConn->update($this->table_name, $params['data'], [$params['key'] => $params['value']]);
+		return $this->db->update($this->table_name, $params['data'], [$params['key'] => $params['value']]);
 	}
 
 	public function record(array $params)
 	{
-		$this->db->where($params['key'], $params['value']);
+		if (isset($params['key']))
+		{
+			$this->db->where($params['key'], $params['value']);
+		}
+
+		if (isset($params['where'])) 
+		{
+			foreach ($params['where'] as $key => $value) {
+				$this->db->where(
+					$value['key'] . ' ' .
+					$value['condition'],
+					$value['value']
+				);
+			}
+		}
 
 		if (isset($params['order_by'])) 
 		{
@@ -68,6 +76,25 @@ class MY_Models extends \CI_Model {
 
 	public function records(array $params = [])
 	{
+		if (isset($params['select']))
+		{
+			$this->db->select($params['select']);
+		}
+
+		if (isset($params['joins'])) 
+		{
+			foreach ($params['joins'] as $key => $value) 
+			{
+				$this->db->join(
+					$value['join_table_name'],
+					$value['join_table_key'] . ' ' .
+					$value['join_table_condition'] . ' ' .
+					$value['join_table_value'],
+					$value['join_table_type']
+				);
+			}
+		}
+
 		if (isset($params['order_by'])) 
 		{
 			$this->db->order_by($params['key'], $params['order_by']);
@@ -114,7 +141,7 @@ class MY_Models extends \CI_Model {
 
 			$this->db->$like_func($search['key'], $search['value']);
 		}
-
+		
 		$query = $this->db->get($this->table_name);
 
 		return $query->custom_result_object($this->entity);
@@ -174,7 +201,11 @@ class MY_Models extends \CI_Model {
 
 	public function delete_data(array $params)
 	{
-		return $this->db->delete($this->table_name, [$params['table_key'] => $params['record_id']]);
+		$this->db->where($params['table_key'], $params['record_id']);
+
+		return $this->db->update($this->table_name, [
+			$params['column_archive'] => '1'
+		]);
 	}
 
 	public function prepare_entity_data()

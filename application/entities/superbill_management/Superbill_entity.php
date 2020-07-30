@@ -148,6 +148,50 @@ class Superbill_entity {
 		return $summary;
 	}
 
+	public function compute_transaction_tv_summary() : array
+	{
+		$summary = [
+			'INITIAL_VISIT_TELEHEALTH' => 0,
+			'FOLLOW_UP_TELEHEALTH' => 0,
+			'AW_CODES_G0402' => 0,
+			'AW_CODE_G0438' => 0,
+			'AW_CODE_G0439' => 0,
+			'total' => 0
+		];
+
+		foreach ($this->transactions as $transaction)
+		{
+			if ($transaction->pt_aw_ippe_code == self::AW_CODES_G0402)
+			{
+				$summary['AW_CODES_G0402'] += 1;
+				$summary['total'] += 1;
+			}
+			else if ($transaction->pt_aw_ippe_code == self::AW_CODE_G0438)
+			{
+				$summary['AW_CODE_G0438'] += 1;
+				$summary['total'] += 1;
+			}
+			else if ($transaction->pt_aw_ippe_code == self::AW_CODE_G0439)
+			{
+				$summary['AW_CODE_G0439'] += 1;
+				$summary['total'] += 1;
+			}
+
+			if ($transaction->pt_tovID == $this->type_of_visits::INITIAL_VISIT_TELEHEALTH)
+			{
+				$summary['INITIAL_VISIT_TELEHEALTH'] += 1;
+				$summary['total'] += 1;
+			}
+			else if ($transaction->pt_tovID == $this->type_of_visits::FOLLOW_UP_TELEHEALTH)
+			{
+				$summary['FOLLOW_UP_TELEHEALTH'] += 1;
+				$summary['total'] += 1;
+			}
+		}
+
+		return $summary;
+	}
+
 	public function get_sel_type_visit(string $sel_type) : array
 	{
 		$sel_list = [];
@@ -162,6 +206,11 @@ class Superbill_entity {
 			$sel_list[] = $this->type_of_visits::INITIAL_VISIT_FACILITY;
 			$sel_list[] = $this->type_of_visits::FOLLOW_UP_FACILITY;
 		}
+		else if ($sel_type == 'tv')
+		{
+			$sel_list[] = $this->type_of_visits::INITIAL_VISIT_TELEHEALTH;
+			$sel_list[] = $this->type_of_visits::FOLLOW_UP_TELEHEALTH;
+		}
 
 		return $sel_list;
 	}
@@ -169,8 +218,8 @@ class Superbill_entity {
 	public function compute_CPO() : array
 	{
 		$summary = [
-			'recertification' => 0,
 			'certification' => 0,
+			'recertification' => 0,
 			'date_Signed' => 0,
 			'first_Month_CPO' => 0,
 			'second_Month_CPO' => 0,
@@ -189,40 +238,42 @@ class Superbill_entity {
 				$summary['certification'] += 1;
 				$summary['total'] += 1;
 
-				if ($cpo->ptcpo_firstMonthCPO)
+				if ($cpo->ptcpo_firstMonthCPO && $cpo->ptcpo_firstMonthCPO != ' - ')
 				{
 					$summary['first_Month_CPO'] += 1;
 					$summary['total'] += 1;
 				}
 
-				if ($cpo->ptcpo_secondMonthCPO)
+				if ($cpo->ptcpo_secondMonthCPO && $cpo->ptcpo_secondMonthCPO != ' - ')
 				{
 					$summary['second_Month_CPO'] += 1;
 					$summary['total'] += 1;
 				}
 
-				if ($cpo->ptcpo_thirdMonthCPO)
+				if ($cpo->ptcpo_thirdMonthCPO && $cpo->ptcpo_thirdMonthCPO != ' - ')
 				{
 					$summary['third_Month_CPO'] += 1;
 					$summary['total'] += 1;
 				}
-			} else if ($cpo->ptcpo_status == CPO_entity::RECERTIFICATION) {
+			} 
+			else if ($cpo->ptcpo_status == CPO_entity::RECERTIFICATION) 
+			{
 				$summary['recertification'] += 1;
 				$summary['total'] += 1;
 
-				if ($cpo->ptcpo_firstMonthCPO)
+				if ($cpo->ptcpo_firstMonthCPO && $cpo->ptcpo_firstMonthCPO != ' - ')
 				{
 					$summary['Refirst_Month_CPO'] += 1;
 					$summary['total'] += 1;
 				}
 
-				if ($cpo->ptcpo_secondMonthCPO)
+				if ($cpo->ptcpo_secondMonthCPO && $cpo->ptcpo_secondMonthCPO != ' - ')
 				{
 					$summary['Resecond_Month_CPO'] += 1;
 					$summary['total'] += 1;
 				}
 
-				if ($cpo->ptcpo_thirdMonthCPO)
+				if ($cpo->ptcpo_thirdMonthCPO && $cpo->ptcpo_thirdMonthCPO != ' - ')
 				{
 					$summary['Rethird_Month_CPO'] += 1;
 					$summary['total'] += 1;

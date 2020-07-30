@@ -11,6 +11,7 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 		$this->load->model(array(
 			'patient_management/transaction_model',
 			'payroll_management/payroll_model',
+			'payroll_management/payroll_summary_model',
 			'provider_management/profile_model',
 		));
 
@@ -38,9 +39,15 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 				$this->input->post('toDate')
 			]);
 
+			$payroll_summaries = $this->payroll_summary_model->get(
+				str_replace('/', '_', $page_data['fromDate']),
+				str_replace('/', '_', $page_data['toDate'])
+			);
+
 			$results = $this->payroll_model->list(
 				$page_data['fromDate'], 
-				$page_data['toDate']
+				$page_data['toDate'],
+				$payroll_summaries
 			);
 
 			$payroll_entity = new Payroll_entity([], $results);
@@ -55,9 +62,17 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 	{
 		$this->check_permission('generate_pr');
 
+		$payroll_summary = $this->payroll_summary_model->get($fromDate, $toDate, $provider_id);
+
+		$page_data = $this->get_provider_details_data($provider_id, $fromDate, $toDate);
+
+		if (!empty($payroll_summary)) {
+			$page_data['provider_payment_summary']['mileage']['qty'] = $payroll_summary->mileage;
+		}
+
 		$this->twig->view(
 			'payroll_management/payroll/details', 
-			$this->get_provider_details_data($provider_id, $fromDate, $toDate)
+			$page_data			
 		);
 	}
 
@@ -66,6 +81,9 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 		$this->check_permission('print_pr');
 
 		$page_data = $this->get_provider_details_data($provider_id, $fromDate, $toDate);
+		$page_data['mileageQty'] = $this->input->post('mileageQty');
+		$page_data['mileageAmount'] = $this->input->post('mileageAmount');
+		$page_data['mileageTotal'] = $this->input->post('mileageTotal');
 		$page_data['notes'] = $this->input->post('notes');
 		$page_data['others_field'] = $this->input->post('others_field');
 		$page_data['others'] = $this->input->post('others');
@@ -92,6 +110,12 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 				'model' => 'transaction_model',
 				'redirect_url' => $redirect_url
 			];
+
+			// save summary
+			$this->payroll_summary_model->save(
+				$details_params,
+				$page_data['mileageQty']
+			);
 
 			parent::make_paid($transaction_params);
 		}
@@ -127,8 +151,8 @@ class Payroll extends \Mobiledrs\core\MY_Controller {
 
 			$providerDetails = $this->profile_model->record($provider_params);
 			
-			$this->email->from('info@global-img.com', 'Global Integrated Medical Group');
-			$this->email->reply_to('info@global-img.com', 'Global Integrated Medical Group');
+			$this->email->from('info@themobiledrs.com', 'The MobileDrs');
+			$this->email->reply_to('michelle@themobiledrs.com', 'The MobileDrs');
 			$this->email->to($providerDetails->provider_email);
 			$this->email->subject('Your payment summary for ' . $page_data['payPeriod']);
 			$this->email->message($emailTemplate);

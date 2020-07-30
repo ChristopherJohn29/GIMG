@@ -145,7 +145,7 @@
 												<span class="help-block">{{ form_error('prsl_patientID') }}</span>
 											</div>
 
-											<div class="col-md-6 form-group {{ form_error('prsl_tovID') ? 'has-error' : '' }}">
+											<div class="col-md-4 form-group {{ form_error('prsl_tovID') ? 'has-error' : '' }}">
 											
 												<label class="control-label">Type of Visit <span>*</span></label>
 												
@@ -154,25 +154,43 @@
 												
 											</div>
 
-											<div class="col-md-6 form-group {{ form_error('prsl_dateRef') ? 'has-error' : '' }}">
+											<div class="col-md-4 form-group {{ form_error('prsl_dateRef') ? 'has-error' : '' }}">
 									
-												<label class="control-label">Date of Referral <span>*</span></label>
+												<label class="control-label">Intake Received <span>*</span></label>
 												<input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask required="true" name="prsl_dateRef[]">
 												
+											</div>
+
+											<div class="col-md-4 form-group">
+
+												<label>Supervising MD <span>*</span></label>
+												<select class="form-control" required="true" name="pt_supervising_mdID[]">
+													<option value="">Select</option>
+
+													{% for supervisingMD in supervisingMDs %}
+
+														<option value="{{ supervisingMD.provider_id }}">
+															{{ supervisingMD.provider_firstname ~ ' ' ~ supervisingMD.provider_lastname }}
+														</option>
+
+													{% endfor %}
+
+												</select>
+
 											</div>
 
 											<div class="col-md-4 has-error">
 												<span class="help-block">{{ form_error('prsl_tovID') }}</span>
 											</div>
 
-											<div class="col-md-6 has-error">
+											<div class="col-md-4 has-error">
 												<span class="help-block">{{ form_error('prsl_dateRef') }}</span>
 											</div>
 											
 											<div class="col-md-12 form-group {{ form_error('prsl_notes') ? 'has-error' : '' }}">
 											
 												<label class="control-label">Notes <span>*</span></label>
-												<textarea class="form-control" id="" placeholder="" required="true" name="prsl_notes[]" rows="5"></textarea>
+												<textarea class="form-control" id="" placeholder="" required="true" name="prsl_notes[]" rows="5" maxlength="2000"></textarea>
 												
 											</div>
 

@@ -17,6 +17,9 @@ class Superbill_cpo_pat_trans_entity {
 	protected $patient_hhcID;
 	protected $patient_dateCreated;
 	protected $patient_caregiver_family;
+	protected $patient_pharmacy;
+	protected $patient_pharmacyPhone;
+	protected $patient_drug_allergy;
 
 	protected $pt_id;
 	protected $pt_tovID;
@@ -41,6 +44,11 @@ class Superbill_cpo_pat_trans_entity {
 	protected $pt_dateCreated;
 	protected $pt_mileage;
 	protected $pt_aw_billed;
+	protected $pt_archive;
+	protected $pt_status;
+
+	public $supervisingMD_firstname;
+	public $supervisingMD_lastname;
 
 	private $cpo = null;
 	private $pat_trans = null;
@@ -55,8 +63,6 @@ class Superbill_cpo_pat_trans_entity {
 	{
 		$data = [];
 
-		$last_ptcpo_patientID = 0;
-
 		foreach ($this->cpo as $i => $cpo)
 		{
 			$data[$i] = [
@@ -67,25 +73,29 @@ class Superbill_cpo_pat_trans_entity {
 				'third_Month_CPO' => $cpo->ptcpo_thirdMonthCPO,
 				'discharge_Date' => $cpo->get_date_format($cpo->ptcpo_dischargeDate),
 				'patient_name' => '',
+				'medicare' => '',
 				'icd10' => '',
 				'status' => $cpo->ptcpo_status,
-				'ptcpo_id' => $cpo->ptcpo_id
+				'ptcpo_id' => $cpo->ptcpo_id,
+				'supervisingMD_fullname' => ''
 			];
 
 			foreach ($this->pat_trans as $pat_tran)
 			{
-				if ($pat_tran->pt_patientID == $cpo->ptcpo_patientID && 
-					in_array($pat_tran->pt_tovID, Type_visit_entity::get_all_visits_list())
-				)
+				if ($pat_tran->pt_patientID == $cpo->ptcpo_patientID)
 				{
 					$data[$i]['patient_name'] = $pat_tran->patient_name;
-					$data[$i]['icd10'] = $pat_tran->pt_icd10_codes;
+					$data[$i]['medicare'] = $pat_tran->patient_medicareNum;
 
-					break;
+					if ($pat_tran->pt_dateOfService == $cpo->ptcpo_dateOfService) {
+						$data[$i]['icd10'] = $pat_tran->pt_icd10_codes;
+
+						if ( ! empty($pat_tran->supervisingMD_firstname)) {
+							$data[$i]['supervisingMD_fullname'] = $pat_tran->supervisingMD_firstname . ' ' . $pat_tran->supervisingMD_lastname;
+						}
+					}
 				}
 			}
-
-			$last_ptcpo_patientID = $cpo->ptcpo_patientID;
 		}
 
 		return $data;

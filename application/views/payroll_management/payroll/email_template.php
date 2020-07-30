@@ -8,5 +8,5 @@
 <br/>
 <p>
 Regards,<br>
-Rico Bon
+Michelle Golub
 </p>

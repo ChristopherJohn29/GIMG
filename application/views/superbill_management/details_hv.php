@@ -2,6 +2,12 @@
 
 {% set page_title = 'Home Visits' %}
 
+{% 
+  set scripts = [
+    'dist/js/superbill_management/details_checkboxes'
+  ]
+%}
+
 {% block content %}
 	<div class="row">
         <div class="col-md-12">
@@ -45,6 +51,7 @@
 	             				   <table class="table no-margin table-striped">
 									<thead>
 										<tr>
+											<th><input type="checkbox" id="checkAll"></th>
 	                                        <th>&nbsp;</th>
 											<th width="200px">Patient Name</th>
 											<th>Medicare</th>
@@ -56,6 +63,7 @@
 											<th>Tobacco</th>
 											<th>TCM</th>
 											<th>Provider</th>
+                                            <th>Supervising MD</th>
 											<th>Date of Service</th>
 											<th>Type of Visit</th>
 											<th>Place of Service</th>
@@ -65,10 +73,12 @@
 									
 									<tbody>
 
-										{% for transaction in transactions %}
+										{% for transaction in newTransactions %}
 										
 											<tr>
-												<input type="hidden" name="pt_id[]" value="{{ transaction.pt_id }}">
+												<td>
+													<input type="checkbox" class="superbill_checkboxes" name="pt_id[]" value="{{ transaction.pt_id }}">
+												</td>
 												<td class="text-center">{{ loop.index }}</td>
 												<td>{{ transaction.patient_name }}</td>
 												<td>{{ transaction.patient_medicareNum }}</td>
@@ -80,9 +90,10 @@
 												<td>{{ transaction.get_selected_choice_format(transaction.pt_tobacco) == 'Yes' ? 1 : '0' }}</td>
 												<td>{{ transaction.get_selected_choice_format(transaction.pt_tcm) == 'Yes' ? 1 : '0' }}</td>
 												<td>{{ transaction.get_provider_fullname }}</td>
+                                                <td>{{ transaction.supervisingMD_firstname ~ ' ' ~ transaction.supervisingMD_lastname }}</td>
 												<td>{{ transaction.get_date_format(transaction.pt_dateOfService) }}</td>
-												<td>{{ transaction.get_tov_code(transaction.tov_id) }}</td>
-												<td>{{ POS_entity.get_pos_name(transaction.patient_placeOfService) }}</td>
+												<td>{{ transaction.get_tov_code(transaction.pt_tovID, transaction.pt_status) }}</td>
+												<td>{{ POS_entity.get_pos_name(transaction.pt_tovID) }}</td>
 												<td>{{ transaction.pt_icd10_codes }}</td>
 											</tr>
 
@@ -157,11 +168,11 @@
 	             		<div class="row no-print">
 	          	
 	                        <div class="col-xs-12 xrx-btn-handler">
-	                            <button type="submit" name="submit_type" value="pdf" formtarget="_blank" class="btn btn-primary xrx-btn" style="margin-right: 5px;">
+	                            <button type="submit" id="generatePDF" name="submit_type" value="pdf" formtarget="_blank" class="btn btn-primary xrx-btn" style="margin-right: 5px;" disabled="true">
 	                            <i class="fa fa-download"></i> Generate PDF
 	                            </button>
 
-	                            <button type="submit" name="submit_type" value="paid" class="btn btn-danger xrx-btn pull-right" style="margin-right: 5px;">
+	                            <button type="submit" id="billedBtn" name="submit_type" value="paid" class="btn btn-danger xrx-btn pull-right" style="margin-right: 5px;" disabled="true">
 	                            <i class="fa fa-credit-card"></i> Visit Billed
 	                            </button>
 	                        </div>

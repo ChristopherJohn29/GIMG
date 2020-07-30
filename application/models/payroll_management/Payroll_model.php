@@ -7,7 +7,7 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 		parent::__construct();
 	}
 
-	public function list(string $fromDate, string $toDate) : array
+	public function list(string $fromDate, string $toDate, array $payroll_summaries) : array
 	{
 		$transaction_params = [
 			'order' => [
@@ -49,6 +49,11 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 	        		'value' => $toDate
 				],
 				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+	        		'value' => NULL
+				],
+				[
 					'key' => 'patient_transactions.pt_tovID',
 					'condition' => '<>',
 	        		'value' => \Mobiledrs\entities\patient_management\Type_visit_entity::CANCELLED
@@ -83,6 +88,14 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 
 			$provider_payment_summary = $payroll_entity->compute_payment_summary();
 			$transaction_entity = new \Mobiledrs\entities\patient_management\Transaction_entity;
+			
+			foreach ($payroll_summaries as $payroll_summary) 
+			{
+				if ($payroll_summary->provider_id === $provider_list->provider_id) {
+					$provider_payment_summary['total_salary'] += ((float) $payroll_summary->mileage) * 
+						$provider_payment_summary['mileage']['amount'];
+				}
+			}
 
 			$payroll_list[] = [
 				'provider_id' => $provider_list->provider_id,
@@ -136,6 +149,11 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 					'key' => 'patient_transactions.pt_dateOfService',
 					'condition' => '<=',
 	        		'value' => $toDate
+				],
+				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+	        		'value' => NULL
 				],
 				[
 					'key' => 'patient_transactions.pt_tovID',
@@ -230,6 +248,11 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 	        		'value' => $toDate
 				],
 				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+	        		'value' => NULL
+				],
+				[
 					'key' => 'patient_transactions.pt_tovID',
 					'condition' => '<>',
 	        		'value' => \Mobiledrs\entities\patient_management\Type_visit_entity::CANCELLED
@@ -291,6 +314,11 @@ class Payroll_model extends \Mobiledrs\core\MY_Models {
 					'key' => 'patient_transactions.pt_dateOfService',
 					'condition' => '>=',
 	        		'value' => $fromDate
+				],
+				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+	        		'value' => NULL
 				],
 				[
 					'key' => 'patient_transactions.pt_dateOfService',

@@ -18,7 +18,7 @@
 		<li>
 			<a href="{{ site_url('dashboard') }}">
 				<i class="fa fa-home"></i>
-				<span>Home</span>
+				<span>History</span>
 			</a>
 		</li>
 
@@ -62,6 +62,8 @@
 
                 	<li><a href="{{ site_url('patient_management/DFV') }}"><i class="fa fa-angle-right"></i> Due For Visits </a></li>
 
+                	<li><a href="{{ site_url('patient_management/DFN') }}"><i class="fa fa-angle-right"></i> Due For 485 </a></li>
+                	
                 	<li><a href="{{ site_url('patient_management/supervising_MD') }}"><i class="fa fa-angle-right"></i> Supervisng MD</a></li>
 					
 				</ul>
@@ -225,6 +227,42 @@
 					{% if roles_permission_entity.has_permission_name(['add_user']) %}
 
 						<li><a href="{{ site_url('user_management/profile/add') }}"><i class="fa fa-angle-right"></i> Add</a></li>
+
+					{% endif %}
+
+					{% if roles_permission_entity.has_permission_name(['logs']) %}
+
+						<li><a href="{{ site_url('user_management/logs') }}"><i class="fa fa-angle-right"></i> Logs</a></li>
+
+					{% endif %}
+
+				</ul>
+			</li>
+
+		{% endif %}
+
+		{% if roles_permission_entity.has_permission_module(['SHM']) %}
+
+			<li class="treeview">
+				<a href="#">
+					<i class="fa fa-calendar"></i>
+					<span>Scheduled Holidays</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+
+				<ul class="treeview-menu">
+
+					{% if roles_permission_entity.has_permission_name(['scheduled_holidays']) %}
+
+						<li><a href="{{ site_url('scheduled_holidays_management/scheduled_holidays') }}"><i class="fa fa-angle-right"></i> View</a></li>
+
+					{% endif %}
+
+					{% if roles_permission_entity.has_permission_name(['scheduled_holidays']) %}
+
+						<li><a href="{{ site_url('scheduled_holidays_management/scheduled_holidays/add') }}"><i class="fa fa-angle-right"></i> Add</a></li>
 
 					{% endif %}
 

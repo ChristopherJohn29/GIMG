@@ -50,7 +50,7 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 		$initial_list = [
 			Type_visit_entity::INITIAL_VISIT_HOME, 
 			Type_visit_entity::INITIAL_VISIT_FACILITY, 
-			Type_visit_entity::INITIAL_VISIT_OFFICE
+			Type_visit_entity::INITIAL_VISIT_TELEHEALTH
 		];
 
 		$patient_params = [
@@ -59,6 +59,11 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 					'key' => 'patient_transactions.pt_patientID',
 					'condition' => '=',
 					'value' => $this->input->get('patientID')
+				],
+				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+					'value' => NULL
 				]
 			],
 			'where_in' => [
@@ -67,27 +72,26 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 			]
 		];
 
-		$initialTrans = null;
-		if ($type == 'edit' && ! empty($this->input->get('patientTransID'))) {
-			$initial_params = [
-				'key' => 'patient_transactions.pt_id',
-				'value' => $this->input->get('patientTransID')
-			];
-
-			$initialTrans = $this->pt_trans_model->record($initial_params);
-		}
-
-		$patientTrans = $this->pt_trans_model->records($patient_params);
-		
 		$tov_datas = [];
 		if ($type == 'add') {
+			$patientTrans = $this->pt_trans_model->records($patient_params);
+
 			if ($patientTrans) {
 				$tov_datas = (new Type_visit_entity)->get_followup_list();
-			}
-			else {
+			} else {
 				$tov_datas = Type_visit_entity::get_visits_list();
-			}	
+			}
 		} else {
+			$initialTrans = null;
+			if ($type == 'edit' && ! empty($this->input->get('patientTransID'))) {
+				$initial_params = [
+					'key' => 'patient_transactions.pt_id',
+					'value' => $this->input->get('patientTransID')
+				];
+
+				$initialTrans = $this->pt_trans_model->record($initial_params);
+			}
+
 			if ((! empty($initialTrans) && in_array($initialTrans->pt_tovID, $initial_list)) ||
 				($type == 'edit' && empty($this->input->get('patientTransID')))) {
 				$tov_datas = Type_visit_entity::get_visits_list();
@@ -95,7 +99,15 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 			else {
 				$tov_datas = (new Type_visit_entity)->get_followup_list();
 			}
-		}		
+		}
+
+		// $patientTrans = $this->pt_trans_model->records($patient_params);
+
+		// if ($patientTrans) {
+		// 	$tov_datas = (new Type_visit_entity)->get_followup_list();
+		// } else {
+		// 	$tov_datas = Type_visit_entity::get_visits_list();
+		// }
 
 		$tov_list = '<option value="">Select</option>';
 
@@ -117,13 +129,13 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 			{
 				$tov_list .= '<option value="4"> Follow-up Visit (Facility)</option>';
 			}
-			else if ($tov_data == Type_visit_entity::INITIAL_VISIT_OFFICE) 
+			else if ($tov_data == Type_visit_entity::INITIAL_VISIT_TELEHEALTH) 
 			{
-				$tov_list .= '<option value="7"> Initial Visit (Office)</option>';
+				$tov_list .= '<option value="7"> Initial Visit (TeleHealth)</option>';
 			}
-			else if ($tov_data == Type_visit_entity::FOLLOW_UP_OFFICE) 
+			else if ($tov_data == Type_visit_entity::FOLLOW_UP_TELEHEALTH) 
 			{
-				$tov_list .= '<option value="8"> Follow-up Visit (Office)</option>';
+				$tov_list .= '<option value="8"> Follow-up Visit (TeleHealth)</option>';
 			}
 		}
 

@@ -31,14 +31,26 @@ class Profile_model extends Mobiledrs\core\MY_Models {
 			'provider_license' => $this->record_entity->provider_license,
 			'provider_gender' => $this->record_entity->provider_gender,
 			'provider_rate_initialVisit' => $this->record_entity->provider_rate_initialVisit,
-			'provider_rate_initialVisitOffice' => $this->record_entity->provider_rate_initialVisitOffice,
+			'provider_rate_initialVisit_TeleHealth' => $this->record_entity->provider_rate_initialVisit_TeleHealth,
 			'provider_rate_followUpVisit' => $this->record_entity->provider_rate_followUpVisit,
-			'provider_rate_followUpVisitOffice' => $this->record_entity->provider_rate_followUpVisitOffice,
+			'provider_rate_followUpVisit_TeleHealth' => $this->record_entity->provider_rate_followUpVisit_TeleHealth,
 			'provider_rate_aw' => $this->record_entity->provider_rate_aw,
 			'provider_rate_acp' => $this->record_entity->provider_rate_acp,
 			'provider_rate_noShowPT' => $this->record_entity->provider_rate_noShowPT,
 			'provider_rate_mileage' => $this->record_entity->provider_rate_mileage,
 			'provider_supervising_MD' => $this->record_entity->provider_supervising_MD
 		];
+	}
+
+	public function supervisingMD_records() {
+		return $this->records([
+			'where' => [
+				[
+					'key' => 'provider_supervising_MD',
+					'condition' => '',
+					'value' => '1',
+				]
+			]
+		]);
 	}
 }

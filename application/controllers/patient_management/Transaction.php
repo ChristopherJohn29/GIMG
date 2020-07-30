@@ -11,7 +11,8 @@ class Transaction extends \Mobiledrs\core\MY_Controller {
 		$this->load->model(array(
 			'patient_management/profile_model',
 			'patient_management/transaction_model',
-			'patient_management/type_visit_model'
+			'patient_management/type_visit_model',
+			'provider_management/supervising_md_model'
 		));
 	}
 
@@ -45,6 +46,11 @@ class Transaction extends \Mobiledrs\core\MY_Controller {
 					'key' => 'patient_transactions.pt_patientID',
 					'condition' => '',
 					'value' => $pt_patientID
+				],
+				[
+					'key' => 'patient_transactions.pt_archive',
+					'condition' => '=',
+					'value' => NULL
 				]
 			],
 			'where_in' => [
@@ -54,6 +60,8 @@ class Transaction extends \Mobiledrs\core\MY_Controller {
 		];
 
 		$page_data['record'] = $this->profile_model->get_records_by_join($record_params);
+
+		$page_data['supervisingMDs'] = $this->supervising_md_model->supervisingMD_records();
 		
 		$initial_followup_records = $this->transaction_model->records($records_params);
 		$type_visits = $this->type_visit_model->records();
@@ -110,7 +118,12 @@ class Transaction extends \Mobiledrs\core\MY_Controller {
 
 		$page_data['record'] = $this->profile_model->get_records_by_join($profile_params);
 		$page_data['transaction'] = $this->transaction_model->get_records_by_join($transaction_params);
-		$page_data['type_visits'] = $this->type_visit_model->records();
+		$page_data['type_visits'] = (new Type_visit_entity())->filterRecords(
+			$page_data['transaction']->pt_tovID,
+			$this->type_visit_model->records()
+		);
+
+		$page_data['supervisingMDs'] = $this->supervising_md_model->supervisingMD_records();
 
 		$this->twig->view('patient_management/transaction/edit', $page_data);
 	}
@@ -136,6 +149,29 @@ class Transaction extends \Mobiledrs\core\MY_Controller {
 			'sub_data_id' => $pt_id
 		];
 
-		parent::save_sub_data($params);   
+		$log = [];
+		if ($page_type == 'edit') {
+			$log = ['description' => 'Updates a patient transaction record.'];
+		} else {
+			$log = ['description' => 'Added a new patient transaction record.'];
+		}
+
+		parent::save_sub_data($params, false);
+
+		$lastRecordID = $page_type == 'edit' ? $pt_id : $this->db->insert_id();
+
+		if ( ! empty($log) && $this->session->userdata('user_roleID') != '1') {
+            $this->logs_model->insert([
+                'data' => [
+                    'user_log_userID' => $this->session->userdata('user_id'),
+                    'user_log_time' => date('H:m:s'),
+                    'user_log_date' => date('Y-m-d'),
+                    'user_log_description' => $log['description'],
+                    'user_log_link' => 'patient_management/transaction/edit/'.$pt_patientID.'/'.$lastRecordID
+                ]
+            ]);
+        }
+
+        return redirect($params['redirect_url']);
 	}
 }

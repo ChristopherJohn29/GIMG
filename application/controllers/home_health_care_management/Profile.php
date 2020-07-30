@@ -88,16 +88,6 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 			$validation_group = 'home_health_care_management/profile/save';
 		}
 
-		// clone to gmma system database
-		$params = [
-			'record_id' => $hhc_id,
-			'table_key' => 'hhc_id',
-			'save_model' => 'profile_model',
-			'validation_group' => $validation_group
-		];
-
-		parent::save_data($params, 'gmma_db');
-
 		$params = [
 			'record_id' => $hhc_id,
 			'table_key' => 'hhc_id',
@@ -106,7 +96,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 			'validation_group' => $validation_group
 		];
 
-		parent::save_data($params);
+		parent::save_data($params);   
 	}
 
 	public function search()

@@ -112,45 +112,10 @@
 										
 									</div>
 
-									<div class="col-md-6 form-group">
-										
-										<label class="control-label">Place of Service</label>
-										<select class="form-control" name="patient_placeOfService">
-											<option value="">Select</option>
-
-											{% for pos in place_of_service %}
-
-												<option value="{{ pos.pos_id }}">{{ pos.get_pos_completename(pos.pos_id) }}</option>
-
-											{% endfor %}
-
-										</select>
-
-									</div>
-
 									<div class="col-md-6"></div>
 
 									<div class="col-md-6 has-error">
 										<span class="help-block">{{ form_error('patient_caregiver_family') }}</span>
-									</div>
-
-									<div class="col-md-6 form-group {{ form_error('patient_supervising_MD') ? 'has-error' : '' }}">
-									
-										<label class="control-label">Supervising MD</label>
-
-										<div class="dropdown mobiledrs-autosuggest-select">
-											<input type="hidden" name="patient_supervising_mdID" required="true">
-
-										  	<input class="form-control" 
-										  		type="text" 
-										  		data-mobiledrs_autosuggest 
-										  		data-mobiledrs_autosuggest_url="{{ site_url('ajax/provider_management/profile/supervising_md_search') }}"
-										  		data-mobiledrs_autosuggest_dropdown_id="patient_supervising_mdID_dropdown">
-
-										  	<div data-mobiledrs_autosuggest_dropdown id="patient_supervising_mdID_dropdown" style="width: 100%;">
-									  	  	</div>
-										</div>
-										
 									</div>
 									
 									<div class="col-md-12 subheader">
@@ -176,6 +141,37 @@
 
 									<div class="col-md-12 has-error">
 										<span class="help-block">{{ form_error('patient_hhcID') }}</span>
+									</div>
+
+									<div class="col-md-12 subheader">
+										<p class="lead ">Pharmacy Information</p>
+									</div>
+
+									<div class="col-md-4 form-group {{ form_error('patient_pharmacy') ? 'has-error' : '' }}">
+										<label class="control-label">Pharmacy</label>
+										<input type="text" class="form-control" id="name" placeholder="" name="patient_pharmacy" value="{{ set_value('patient_pharmacy') }}">
+									</div>
+
+									<div class="col-md-4 form-group {{ form_error('patient_pharmacyPhone') ? 'has-error' : '' }}">
+										<label class="control-label">Phone</label>
+										<input type="text" class="form-control" id="name" placeholder="" name="patient_pharmacyPhone" value="{{ set_value('patient_pharmacyPhone') }}">
+									</div>
+
+									<div class="col-md-4 form-group {{ form_error('patient_drug_allergy') ? 'has-error' : '' }}">
+										<label class="control-label">Drug Allergy</label>
+										<input type="text" class="form-control" id="name" placeholder="" name="patient_drug_allergy" value="{{ set_value('patient_drug_allergy') }}">
+									</div>
+									
+									<div class="col-md-4 has-error">
+										<span class="help-block">{{ form_error('patient_pharmacy') }}</span>
+									</div>
+
+									<div class="col-md-4 has-error">
+										<span class="help-block">{{ form_error('patient_pharmacyPhone') }}</span>
+									</div>
+
+									<div class="col-md-4 has-error">
+										<span class="help-block">{{ form_error('patient_drug_allergy') }}</span>
 									</div>
 									
 									<div class="col-md-12 form-group xrx-btn-handler">
