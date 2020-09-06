@@ -3,9 +3,9 @@
 class Search_model extends \Mobiledrs\core\MY_Models {
 
 	private $access_modules = [
-		'1' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
-		'2' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
-		'3' => ['patient', 'provider', 'facilities', 'routesheet']
+		'2000000001' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
+		'2000000002' => ['patient', 'provider', 'facilities', 'user', 'routesheet'],
+		'2000000003' => ['patient', 'provider', 'facilities', 'routesheet']
 	];
 	
 	public function __construct()

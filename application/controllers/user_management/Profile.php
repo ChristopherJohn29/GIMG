@@ -31,7 +31,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'user_roleID',
 					'condition' => '<>',
-					'value' => 1
+					'value' => 2000000001
 				],
 				[
 					'key' => 'user_archive',
