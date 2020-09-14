@@ -14,7 +14,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 	];
 
 	private $typeDropdown = [
-		'1' => [
+		'2000000001' => [
 			'1' => 'Total Patients',
             '2' => 'Unbilled CPO',
             '3' => 'Unbilled AW',
@@ -23,7 +23,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
             '6' => 'Blank / Empty Diagnoses',
             '7' => 'No Show Patients'
 		],
-		'2' => [
+		'2000000002' => [
 			'1' => 'Total Patients',
             '2' => 'Unbilled CPO',
             '3' => 'Unbilled AW',
@@ -32,7 +32,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
             '6' => 'Blank / Empty Diagnoses',
             '7' => 'No Show Patients'
 		],
-		'3' => [
+		'2000000003' => [
 			'1' => 'Total Patients',
 			'6' => 'Blank / Empty Diagnoses',
 			'7' => 'No Show Patients'
