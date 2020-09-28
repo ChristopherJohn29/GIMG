@@ -32,6 +32,11 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 					'key' => 'user_roleID',
 					'condition' => '<>',
 					'value' => 2000000001
+				],
+				[
+					'key' => 'user_archive',
+					'condition' => '=',
+					'value' => NULL
 				]
 			],
 			'return_type' => 'result'
@@ -52,7 +57,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '2000000001'
+					'value' => '1'
 				]
 			]
 		];
@@ -83,7 +88,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '2000000001'
+					'value' => '1'
 				]
 			]
 		];
