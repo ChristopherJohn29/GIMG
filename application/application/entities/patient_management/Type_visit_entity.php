@@ -4,14 +4,14 @@ namespace Mobiledrs\entities\patient_management;
 
 class Type_visit_entity extends \Mobiledrs\entities\Entity {
 
-	const INITIAL_VISIT_HOME = 1;
-	const INITIAL_VISIT_FACILITY = 2;
-	const FOLLOW_UP_HOME = 3;
-	const FOLLOW_UP_FACILITY = 4;
-	const NO_SHOW = 5;
-	const CANCELLED = 6;
-	const INITIAL_VISIT_TELEHEALTH = 7;
-	const FOLLOW_UP_TELEHEALTH = 8;
+	const INITIAL_VISIT_HOME = 2000000001;
+	const INITIAL_VISIT_FACILITY = 2000000002;
+	const FOLLOW_UP_HOME = 2000000003;
+	const FOLLOW_UP_FACILITY = 2000000004;
+	const NO_SHOW = 2000000005;
+	const CANCELLED = 2000000006;
+	const INITIAL_VISIT_TELEHEALTH = 2000000007;
+	const FOLLOW_UP_TELEHEALTH = 2000000008;
 
 	protected $tov_id; 
 	protected $tov_name;

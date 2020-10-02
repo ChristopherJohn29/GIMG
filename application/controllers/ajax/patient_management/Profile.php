@@ -115,27 +115,27 @@ class Profile extends \Mobiledrs\core\MY_AJAX_Controller {
 		{
 			if ($tov_data == Type_visit_entity::INITIAL_VISIT_HOME) 
 			{
-				$tov_list .= '<option value="1"> Initial Visit (Home)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::INITIAL_VISIT_HOME.'"> Initial Visit (Home)</option>';
 			}
 			else if ($tov_data == Type_visit_entity::INITIAL_VISIT_FACILITY) 
 			{
-				$tov_list .= '<option value="2"> Initial Visit (Facility)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::INITIAL_VISIT_FACILITY.'"> Initial Visit (Facility)</option>';
 			}
 			else if ($tov_data == Type_visit_entity::FOLLOW_UP_HOME) 
 			{
-				$tov_list .= '<option value="3"> Follow-up Visit (Home)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::FOLLOW_UP_HOME.'"> Follow-up Visit (Home)</option>';
 			}
 			else if ($tov_data == Type_visit_entity::FOLLOW_UP_FACILITY) 
 			{
-				$tov_list .= '<option value="4"> Follow-up Visit (Facility)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::FOLLOW_UP_FACILITY.'"> Follow-up Visit (Facility)</option>';
 			}
 			else if ($tov_data == Type_visit_entity::INITIAL_VISIT_TELEHEALTH) 
 			{
-				$tov_list .= '<option value="7"> Initial Visit (TeleHealth)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::INITIAL_VISIT_TELEHEALTH.'"> Initial Visit (TeleHealth)</option>';
 			}
 			else if ($tov_data == Type_visit_entity::FOLLOW_UP_TELEHEALTH) 
 			{
-				$tov_list .= '<option value="8"> Follow-up Visit (TeleHealth)</option>';
+				$tov_list .= '<option value="'.Type_visit_entity::FOLLOW_UP_TELEHEALTH.'"> Follow-up Visit (TeleHealth)</option>';
 			}
 		}
 
