@@ -73,7 +73,12 @@ class Type_visit_entity extends \Mobiledrs\entities\Entity {
 		$initialList = [];
 		$followUpList = [];
 		$cancelNoShowList = [];
+		$selectedTov = [];
 		foreach ($tovs as $tov) {
+			if (empty($selectedTov) && $tov->tov_id === $trans_id) {
+				$selectedTov[] = $tov;
+			}
+
 			if (in_array($tov->tov_id, $this->get_initial_list())) {
 				$initialList[] = $tov;	
 				continue;
@@ -96,8 +101,8 @@ class Type_visit_entity extends \Mobiledrs\entities\Entity {
 		} else {
 			$filteredTovs = array_merge($filteredTovs, $initialList);
 		}
-
-		$filteredTovs = array_merge($filteredTovs, $cancelNoShowList);
+		
+		$filteredTovs = array_merge($filteredTovs, $cancelNoShowList, $selectedTov);
 // echo '<pre>';
 // echo var_dump($filteredTovs);
 // echo '</pre>';
