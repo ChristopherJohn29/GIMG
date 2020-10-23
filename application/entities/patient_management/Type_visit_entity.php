@@ -60,16 +60,52 @@ class Type_visit_entity extends \Mobiledrs\entities\Entity {
 		];
 	}
 
-	public function filterRecords($trans_id, $tovs) : array
+	public function get_other_list() : array
 	{
-		$filteredTovs = [];
-
-		$otherList = [
+		return [
 			self::NO_SHOW,
 			self::CANCELLED
 		];
+	}
 
+	public function filterRecords($trans_id, $tovs) : array
+	{
+		$initialList = [];
+		$followUpList = [];
+		$cancelNoShowList = [];
 		foreach ($tovs as $tov) {
+			if (in_array($tov->tov_id, $this->get_initial_list())) {
+				$initialList[] = $tov;	
+				continue;
+			}
+			
+			if (in_array($tov->tov_id, $this->get_followup_list())) {
+				$followUpList[] = $tov;	
+				continue;
+			}
+
+			if (in_array((int)$tov->tov_id, $this->get_other_list())) {
+				$cancelNoShowList[] = $tov;
+				continue;
+			}
+		}
+
+		$filteredTovs = [];
+		if (in_array($trans_id, $this->get_initial_list())) {
+			$filteredTovs = array_merge($filteredTovs, $followUpList);	
+		} else {
+			$filteredTovs = array_merge($filteredTovs, $initialList);
+		}
+
+		$filteredTovs = array_merge($filteredTovs, $cancelNoShowList);
+// echo '<pre>';
+// echo var_dump($filteredTovs);
+// echo '</pre>';
+// exit;
+		return $filteredTovs;
+		// $filteredTovs = array_merge($initialList, $followUpList, $cancelNoShowList);
+
+		/* foreach ($tovs as $tov) {
 			$tovInitialType = in_array($trans_id, $this->get_initial_list()) && 
 				in_array($tov->tov_id, $this->get_initial_list());
 
@@ -95,8 +131,8 @@ class Type_visit_entity extends \Mobiledrs\entities\Entity {
 				$filteredTovs[] = $tov;
 				continue;
 			}
-		}
+		} 
 
-		return $filteredTovs;
+		return $filteredTovs;*/
 	}
 }
