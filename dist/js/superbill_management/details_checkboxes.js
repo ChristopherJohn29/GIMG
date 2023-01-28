@@ -3,6 +3,14 @@ var Mobiledrs =  Mobiledrs || {};
 Mobiledrs.Superbill_details_checkboxes = (function() {
 	var init = function() {
 		checkBoxes();
+
+		jQuery('.visit-table').DataTable({
+			"order": [[ 1, "asc" ]],
+			'aoColumnDefs': [{
+				 'bSortable': false,
+				 'aTargets': [0] /* 1st one, start by the right */
+			 }]
+		 });
 	};
 
 	var checkBoxes = function() {

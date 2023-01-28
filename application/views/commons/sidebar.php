@@ -54,17 +54,17 @@
 
 					{% endif %}
 
-					{% if roles_permission_entity.has_permission_name(['headcount_pt']) %}
-                    
-                    	<li><a href="{{ site_url('patient_management/headcount') }}"><i class="fa fa-angle-right"></i> Headcount </a></li>
-
-                	{% endif %}
+					
 
                 	<li><a href="{{ site_url('patient_management/DFV') }}"><i class="fa fa-angle-right"></i> Due For Visits </a></li>
 
+					<li><a href="{{ site_url('patient_management/DFV/ca') }}"><i class="fa fa-angle-right"></i> Due For Cognitive Visits </a></li>
+
+                	<li><a href="{{ site_url('patient_management/DFLO') }}"><i class="fa fa-angle-right"></i> Due For Lab Orders </a></li>
+
                 	<li><a href="{{ site_url('patient_management/DFN') }}"><i class="fa fa-angle-right"></i> Due For 485 </a></li>
                 	
-                	<li><a href="{{ site_url('patient_management/supervising_MD') }}"><i class="fa fa-angle-right"></i> Supervisng MD</a></li>
+                	<li><a href="{{ site_url('patient_management/supervising_MD') }}"><i class="fa fa-angle-right"></i> Supervising MD</a></li>
 					
 				</ul>
 			</li>
@@ -128,6 +128,34 @@
 
 		{% endif %}
 
+		{% if roles_permission_entity.has_permission_module(['PRSM']) %}
+
+		<li class="treeview">
+			<a href="#">
+				<i class="fa fa-car"></i>
+				<span>C.A. Route Sheet</span>
+				<span class="pull-right-container">
+					<i class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+			<ul class="treeview-menu">
+
+				{% if roles_permission_entity.has_permission_name(['view_prs']) %}
+					<li><a href="{{ site_url('provider_route_sheet_management/route_sheet/index/ca') }}"><i class="fa fa-angle-right"></i> View</a></li>
+
+				{% endif %}
+
+				{% if roles_permission_entity.has_permission_name(['add_prs']) %}
+
+					<li><a href="{{ site_url('provider_route_sheet_management/route_sheet/add/ca') }}"><i class="fa fa-angle-right"></i> Add</a></li>
+
+				{% endif %}
+
+			</ul>
+		</li>
+
+		{% endif %}
+
 
 		{% if roles_permission_entity.has_permission_module(['HHCPM']) %}
 
@@ -160,6 +188,25 @@
 
 		{% endif %}
 
+		<li class="treeview">
+				<a href="#">
+					<i class="fa fa-money"></i>
+					<span>Preferred Specialists</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+				<ul class="treeview-menu">
+						
+						<li><a href="{{ site_url('specialist/profile') }}"><i class="fa fa-angle-right"></i> View</a></li>
+
+						<li><a href="{{ site_url('specialist/profile/add') }}"><i class="fa fa-angle-right"></i> Add</a></li>
+
+					<li><a href="{{ site_url('specialist/profile/search') }}"><i class="fa fa-angle-right"></i> Search</a></li>
+
+				</ul>
+			</li>
+
 		{% if roles_permission_entity.has_permission_module(['PRG']) %}
 
 			<li class="treeview">
@@ -174,8 +221,15 @@
 
 					{% if roles_permission_entity.has_permission_name(['generate_pr']) %}
 
-						<li><a href="{{ site_url('payroll_management/payroll') }}"><i class="fa fa-angle-right"></i> Create</a></li>
-
+						<li><a href="{{ site_url('payroll_management/payroll') }}"><i class="fa fa-angle-right"></i> Create Payroll</a></li>
+						<li><a href="{{ site_url('payroll_management/payroll/records') }}"><i class="fa fa-angle-right"></i> Report Generation</a></li>
+						{% if roles_permission_entity.has_permission_name(['headcount_pt']) %}
+                    
+                    	<li><a href="{{ site_url('patient_management/headcount') }}"><i class="fa fa-angle-right"></i> Headcount </a></li>
+						<li><a href="{{ site_url('payroll_management/payroll/invoice') }}"><i class="fa fa-angle-right"></i> Create Invoice </a></li>
+						<li><a href="{{ site_url('payroll_management/payroll/invoiceReport') }}"><i class="fa fa-angle-right"></i> Invoice Monitoring </a></li>
+                	{% endif %}
+			
 					{% endif %}
 
 				</ul>
@@ -197,7 +251,7 @@
 					{% if roles_permission_entity.has_permission_module(['SBAWRG', 'SBHVRG', 'SBFVRG', 'SBCPORG']) %}
 
 	                	<li><a href="{{ site_url('superbill_management/superbill/') }}"><i class="fa fa-angle-right"></i> Create</a></li>
-
+						<li><a href="{{ site_url('superbill_management/superbill/unbill/') }}"><i class="fa fa-angle-right"></i> Unbill</a></li>
                 	{% endif %}
 
 				</ul>
@@ -268,6 +322,17 @@
 
 				</ul>
 			</li>
+
+		{% endif %}
+
+		{% if roles_permission_entity.has_permission_module(['CR']) %}
+
+		<li>
+			<a href="{{ site_url('cookies') }}">
+				<i class="fa fa-key"></i>
+				<span>Token Restriction</span>
+			</a>
+		</li>
 
 		{% endif %}
 	</ul>

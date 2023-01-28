@@ -34,10 +34,16 @@
 										<p class="lead">Personal Information</p>
 									</div>
 									
-									<div class="col-md-12 form-group {{ form_error('patient_name') ? 'has-error' : '' }}">
+									<div class="col-md-6 form-group {{ form_error('patient_name') ? 'has-error' : '' }}">
 									
 										<label class="control-label">Last name, First name <span>*</span></label>
 										<input type="text" class="form-control" id="name" placeholder="" required="true" name="patient_name" value="{{ set_value('patient_name') }}">
+									</div>
+
+									<div class="col-md-6 form-group">
+									
+										<label class="control-label">Sub note </label>
+										<input type="text" class="form-control" id="name" placeholder="" name="patient_sub_note" value="{{ set_value('patient_sub_note') }}">
 									</div>
 									
 									<div class="col-md-12 has-error">
@@ -112,12 +118,30 @@
 										
 									</div>
 
-									<div class="col-md-6"></div>
+									<div class="col-md-6 form-group {{ form_error('patient_spouse') ? 'has-error' : '' }}">
+											
+												<label class="control-label">Spouse</label>
 
+												<div class="dropdown mobiledrs-autosuggest-select">
+													<input type="hidden" name="patient_spouse">
+
+												  	<input class="form-control" 
+												  		type="text" 
+												  		data-mobiledrs_autosuggest 
+												  		data-mobiledrs_autosuggest_url="{{ site_url('ajax/patient_management/profile/search') }}"
+												  		data-mobiledrs_autosuggest_dropdown_id="patient_spouse_dropdown">
+
+												  	<div data-mobiledrs_autosuggest_dropdown id="patient_spouse_dropdown" style="width: 100%;">
+											  	  	</div>
+												</div>
+												
+											</div>
+
+									
 									<div class="col-md-6 has-error">
 										<span class="help-block">{{ form_error('patient_caregiver_family') }}</span>
 									</div>
-									
+
 									<div class="col-md-12 subheader">
 										<p class="lead ">Home Health Care</p>
 									</div>
@@ -142,6 +166,8 @@
 									<div class="col-md-12 has-error">
 										<span class="help-block">{{ form_error('patient_hhcID') }}</span>
 									</div>
+									
+									
 
 									<div class="col-md-12 subheader">
 										<p class="lead ">Pharmacy Information</p>

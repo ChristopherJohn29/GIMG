@@ -235,4 +235,19 @@ class MY_Models extends \CI_Model {
 
 		return $this->db->update_batch($this->table_name, $dataToInsert, $params['columnID']);
 	}
+
+	public function make_unpaid(array $params)
+	{
+		$dataToInsert = [];
+
+		for ($i = 0; $i < count($params['data']); $i++)
+		{ 
+			$dataToInsert[] = [
+				$params['columnID'] => $params['data'][$i],
+				$params['columnPaid'] => NULL
+			];
+		}
+
+		return $this->db->update_batch($this->table_name, $dataToInsert, $params['columnID']);
+	}
 }

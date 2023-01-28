@@ -21,6 +21,7 @@ class Profile_model extends \Mobiledrs\core\MY_Models {
 			'hhc_phoneNumber' => $this->input->post('hhc_phoneNumber'),
 			'hhc_faxNumber' => $this->input->post('hhc_faxNumber'),
 			'hhc_email' => $this->input->post('hhc_email'),
+			'hhc_email_additional' => $this->input->post('hhc_email_additional'),
 			'hhc_address' => $this->input->post('hhc_address')
 		];
 	}

@@ -8,5 +8,5 @@
 <br>
 <p>
 Regards,<br>
-MERI PAPIKYAN
+ Global Mobile Medical Alliances
 </p>

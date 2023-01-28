@@ -147,6 +147,28 @@
 
 					<?php endif; ?>
 
+					<?php if ($provider_payment_summary['ca_homehealth']['total'] != 0 ): ?>
+
+					<tr>
+						<th style="border-bottom: 1px solid #d2d6de;">Cognitive Assessment (Home Visit)</th>
+						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['ca_homehealth']['qty'] ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['ca_homehealth']['amount'] != '' ? $provider_payment_summary['ca_homehealth']['amount'] : 0 ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['ca_homehealth']['total'] ?></td>
+					</tr>
+
+					<?php endif; ?>
+
+					<?php if ($provider_payment_summary['ca_telehealth']['total'] != 0 ): ?>
+
+					<tr>
+						<th style="border-bottom: 1px solid #d2d6de;">Cognitive Assessment (TeleHealth)</th>
+						<td style="border-bottom: 1px solid #d2d6de;"><?php echo $provider_payment_summary['ca_telehealth']['qty'] ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['ca_telehealth']['amount'] != '' ? $provider_payment_summary['ca_telehealth']['amount'] : 0 ?></td>
+						<td style="border-bottom: 1px solid #d2d6de;">$<?php echo $provider_payment_summary['ca_telehealth']['total'] ?></td>
+					</tr>
+
+					<?php endif; ?>
+
 					<?php if ($provider_payment_summary['no_show']['total'] != 0 ): ?>
 
 						<tr>

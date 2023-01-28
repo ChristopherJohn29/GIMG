@@ -44,7 +44,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
         '2' => 'provider',
         '3' => 'pt_supervising_mdID',
         '4' => 'dateOfService',
-        '5' => 'deductible',
+        '5' => 'type_of_visit',
         '6' => 'home_health',
         '7' => 'paid',
         '8' => 'aw_billed',
@@ -68,6 +68,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 
 	public function index()
 	{
+		$this->check_permission('generate_pr');
 		$this->check_permission('headcount_pt');
 
 		$page_data['typeList'] = $this->typeDropdown[$this->session->userdata('user_roleID')];
@@ -77,6 +78,7 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 
 	public function generate()
 	{
+		$this->check_permission('generate_pr');
 		$this->check_permission('headcount_pt');
 
 		$this->load->library('Date_formatter');
@@ -135,7 +137,12 @@ class Headcount extends \Mobiledrs\core\MY_Controller {
 
 			$page_data['headcounts'] = $this->supervising_md_model->get_supervisingMD_details(
 				$this->headcount_model->$selected_func()
-			);
+			);	
+
+			// echo "<pre>";
+			// var_dump($page_data['headcounts']);
+			// echo "</pre>";
+			// exit;
 			
 			$page_data['headcounts_total'] = count($page_data['headcounts']);
 			

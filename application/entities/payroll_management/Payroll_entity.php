@@ -51,9 +51,59 @@ class Payroll_entity {
 				'amount' => $this->provider_details->provider_rate_followUpVisit_TeleHealth,
 				'total' => 0
 			],
+			'HOSPICE_FOLLOW_UP_VISIT' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_hospiceFollowUpVisit,
+				'total' => 0
+			],
+			'HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_hospiceFollowUpVisit_TeleHealth,
+				'total' => 0
+			],
+			'CHANGE_OF_CONDITION' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_changeOfConditionVisit,
+				'total' => 0
+			],
+			'CHANGE_OF_CONDITION_TELEHEALTH' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_changeOfConditionVisit_TeleHealth,
+				'total' => 0
+			],
+			'TRANSITIONAL_CARE' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_transitionalCareVisit,
+				'total' => 0
+			],
+			'HOSPICE_EVALUATION_VISIT' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_hospiceEvaluationVisit,
+				'total' => 0
+			],
+			'HOSPICE_EVALUATION_VISIT_TELEHEALTH' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_hospiceEvaluationVisit_TeleHealth,
+				'total' => 0
+			],
+			'ca_homehealth' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_ca_homeHealth,
+				'total' => 0
+			],
+			'ca_telehealth' => [
+				'qty' => 0,
+				'amount' => $this->provider_details->provider_rate_ca_teleHealth,
+				'total' => 0
+			],
 			'no_show' => [
 				'qty' => 0,
 				'amount' => $this->provider_details->provider_rate_noShowPT,
+				'total' => 0
+			],
+			'cancel' => [
+				'qty' => 0,
+				'amount' => 0,
 				'total' => 0
 			],
 			'aw_ippe' => [
@@ -79,7 +129,9 @@ class Payroll_entity {
 		{
 			if ((int) $provider_transaction->tov_id == $this->type_of_visits::CANCELLED)
 			{
-				break;
+				$computed['cancel']['qty'] += 1;
+				$computed['total_visits'] += 1;
+				// break;
 			}
 
 			if ((int) $provider_transaction->tov_id == $this->type_of_visits::INITIAL_VISIT_HOME)
@@ -118,9 +170,63 @@ class Payroll_entity {
 
 				$computed['total_visits'] += 1;
 			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::HOSPICE_EVALUATION_VISIT)
+			{
+				$computed['HOSPICE_EVALUATION_VISIT']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::HOSPICE_EVALUATION_VISIT_TELEHEALTH)
+			{
+				$computed['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::HOSPICE_FOLLOW_UP_VISIT)
+			{
+				$computed['HOSPICE_FOLLOW_UP_VISIT']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH)
+			{
+				$computed['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::CHANGE_OF_CONDITION)
+			{
+				$computed['CHANGE_OF_CONDITION']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::CHANGE_OF_CONDITION_TELEHEALTH)
+			{
+				$computed['CHANGE_OF_CONDITION_TELEHEALTH']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::TRANSITIONAL_CARE)
+			{
+				$computed['TRANSITIONAL_CARE']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
 			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::NO_SHOW)
 			{
 				$computed['no_show']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::COGNITIVE_HOME)
+			{
+				$computed['ca_homehealth']['qty'] += 1;
+
+				$computed['total_visits'] += 1;
+			}
+			else if ((int) $provider_transaction->tov_id == $this->type_of_visits::COGNITIVE_TELEHEALTH)
+			{
+				$computed['ca_telehealth']['qty'] += 1;
 
 				$computed['total_visits'] += 1;
 			}
@@ -173,9 +279,85 @@ class Payroll_entity {
 
 			$computed['total_salary'] += $computed['follow_up_telehealth']['total'];
 		}
-		
+
+
+		if ( ! empty($this->provider_details->provider_rate_hospiceEvaluationVisit))
+		{
+			$computed['HOSPICE_EVALUATION_VISIT']['total'] = $computed['HOSPICE_EVALUATION_VISIT']['qty'] * 
+				$computed['HOSPICE_EVALUATION_VISIT']['amount'];
+
+			$computed['total_salary'] += $computed['HOSPICE_EVALUATION_VISIT']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_hospiceEvaluationVisit_TeleHealth))
+		{
+			$computed['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['total'] = $computed['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['qty'] * 
+				$computed['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['amount'];
+
+			$computed['total_salary'] += $computed['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_hospiceFollowUpVisit))
+		{
+			$computed['HOSPICE_FOLLOW_UP_VISIT']['total'] = $computed['HOSPICE_FOLLOW_UP_VISIT']['qty'] * 
+				$computed['HOSPICE_FOLLOW_UP_VISIT']['amount'];
+
+			$computed['total_salary'] += $computed['HOSPICE_FOLLOW_UP_VISIT']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_hospiceFollowUpVisit_TeleHealth))
+		{
+			$computed['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['total'] = $computed['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['qty'] * 
+				$computed['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['amount'];
+
+			$computed['total_salary'] += $computed['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_changeOfConditionVisit))
+		{
+			$computed['CHANGE_OF_CONDITION']['total'] = $computed['CHANGE_OF_CONDITION']['qty'] * 
+				$computed['CHANGE_OF_CONDITION']['amount'];
+
+			$computed['total_salary'] += $computed['CHANGE_OF_CONDITION']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_changeOfConditionVisit_TeleHealth))
+		{
+			$computed['CHANGE_OF_CONDITION_TELEHEALTH']['total'] = $computed['CHANGE_OF_CONDITION_TELEHEALTH']['qty'] * 
+				$computed['CHANGE_OF_CONDITION_TELEHEALTH']['amount'];
+
+			$computed['total_salary'] += $computed['CHANGE_OF_CONDITION_TELEHEALTH']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_transitionalCareVisit))
+		{
+			$computed['TRANSITIONAL_CARE']['total'] = $computed['TRANSITIONAL_CARE']['qty'] * 
+				$computed['TRANSITIONAL_CARE']['amount'];
+
+			$computed['total_salary'] += $computed['TRANSITIONAL_CARE']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_ca_homeHealth))
+		{
+			$computed['ca_homehealth']['total'] = $computed['ca_homehealth']['qty'] * 
+				$computed['ca_homehealth']['amount'];
+
+			$computed['total_salary'] += $computed['ca_homehealth']['total'];
+		}
+
+		if ( ! empty($this->provider_details->provider_rate_ca_teleHealth))
+		{
+			$computed['ca_telehealth']['total'] = $computed['ca_telehealth']['qty'] * 
+				$computed['ca_telehealth']['amount'];
+
+			$computed['total_salary'] += $computed['ca_telehealth']['total'];
+		}
+
 		$computed['no_show']['total'] = $computed['no_show']['qty'] * 
 			$computed['no_show']['amount'];
+
+		$computed['cancel']['total'] = $computed['cancel']['qty'] * 
+		$computed['cancel']['amount'];
 
 		$computed['total_salary'] += $computed['no_show']['total'];
 		
@@ -193,6 +375,7 @@ class Payroll_entity {
 			$computed['mileage']['amount'];
 
 		$computed['total_salary'] += $computed['mileage']['total'];
+
 
 		return $computed;
 	}

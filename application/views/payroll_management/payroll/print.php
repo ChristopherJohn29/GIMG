@@ -157,6 +157,28 @@
 
 									{% endif %}
 
+									{% if provider_payment_summary['ca_homehealth']['total'] != 0 %}
+										
+										<tr>
+											<th><strong>Cognitive Assessment (Home Visit)</strong></th>
+											<td>{{ provider_payment_summary['ca_homehealth']['qty'] }}</td>
+											<td>${{ provider_payment_summary['ca_homehealth']['amount'] != '' ? provider_payment_summary['ca_homehealth']['amount'] : 0 }}</td>
+											<td>${{ provider_payment_summary['ca_homehealth']['total'] }}</td>
+										</tr>
+
+									{% endif %}
+
+									{% if provider_payment_summary['ca_telehealth']['total'] != 0 %}
+										
+										<tr>
+											<th><strong>Cognitive Assessment (TeleHealth)</strong></th>
+											<td>{{ provider_payment_summary['ca_telehealth']['qty'] }}</td>
+											<td>${{ provider_payment_summary['ca_telehealth']['amount'] != '' ? provider_payment_summary['ca_telehealth']['amount'] : 0 }}</td>
+											<td>${{ provider_payment_summary['ca_telehealth']['total'] }}</td>
+										</tr>
+
+									{% endif %}
+
 									{% if provider_payment_summary['no_show']['total'] != 0 %}
 										
 										<tr>

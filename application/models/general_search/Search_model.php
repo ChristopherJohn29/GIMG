@@ -38,26 +38,26 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 			}
 		}
 
-		if (in_array('facilities', $user_access_module)) {
-			$homehealth_module = $this->search_homehealth_module($searchTerm);
-			if ( ! empty($homehealth_module)) {
-				$results['facilities'] = $homehealth_module;
-			}
-		}
+		// if (in_array('facilities', $user_access_module)) {
+		// 	$homehealth_module = $this->search_homehealth_module($searchTerm);
+		// 	if ( ! empty($homehealth_module)) {
+		// 		$results['facilities'] = $homehealth_module;
+		// 	}
+		// }
 
-		if (in_array('user', $user_access_module)) {
-			$user_module = $this->search_user_module($searchTerm);
-			if ( ! empty($user_module)) {
-				$results['user'] = $user_module;
-			}
-		}
+		// if (in_array('user', $user_access_module)) {
+		// 	$user_module = $this->search_user_module($searchTerm);
+		// 	if ( ! empty($user_module)) {
+		// 		$results['user'] = $user_module;
+		// 	}
+		// }
 
-		if (in_array('routesheet', $user_access_module)) {
-			$routesheet_module = $this->search_routesheet_module($searchTerm);
-			if ( ! empty($routesheet_module)) {
-				$results['routesheet'] = $routesheet_module;
-			}
-		}
+		// if (in_array('routesheet', $user_access_module)) {
+		// 	$routesheet_module = $this->search_routesheet_module($searchTerm);
+		// 	if ( ! empty($routesheet_module)) {
+		// 		$results['routesheet'] = $routesheet_module;
+		// 	}
+		// }
 
 		return $results;
 	}
@@ -95,44 +95,44 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 		);
 
 		$this->db->like('patient.patient_name', $searchTerm);
-		$this->db->or_like('patient.patient_gender', $searchTerm);
+		// $this->db->or_like('patient.patient_gender', $searchTerm);
 		$this->db->or_like('patient.patient_medicareNum', $searchTerm);
 		$this->db->or_like('patient.patient_dateOfBirth', $searchTerm);
-		$this->db->or_like('patient.patient_phoneNum', $searchTerm);
+		// $this->db->or_like('patient.patient_phoneNum', $searchTerm);
 		$this->db->or_like('patient.patient_address', $searchTerm);
-		$this->db->or_like('patient.patient_caregiver_family', $searchTerm);
-		$this->db->or_like('patient.patient_placeOfService', $searchTerm);
+		// $this->db->or_like('patient.patient_caregiver_family', $searchTerm);
+		// $this->db->or_like('patient.patient_placeOfService', $searchTerm);
 
-		$this->db->or_like('patient_CPO.ptcpo_period', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_dateSigned', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_firstMonthCPO', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_secondMonthCPO', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_thirdMonthCPO', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_dischargeDate', $searchTerm);
-		$this->db->or_like('patient_CPO.ptcpo_dateBilled', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_period', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_dateSigned', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_firstMonthCPO', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_secondMonthCPO', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_thirdMonthCPO', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_dischargeDate', $searchTerm);
+		// $this->db->or_like('patient_CPO.ptcpo_dateBilled', $searchTerm);
 
-		$this->db->or_like('patient_communication_notes.ptcn_message', $searchTerm);
+		// $this->db->or_like('patient_communication_notes.ptcn_message', $searchTerm);
 
 		$this->db->or_like('patient_transactions.pt_dateOfService', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_deductible', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_aw_ippe_date', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_aw_ippe_code', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_performed', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_acp', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_diabetes', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_tobacco', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_tcm', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_others', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_icd10_codes', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_visitBilled', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_dateRef', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_dateRefEmailed', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_notes', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_mileage', $searchTerm);
-		$this->db->or_like('patient_transactions.pt_aw_billed', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_deductible', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_aw_ippe_date', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_aw_ippe_code', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_performed', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_acp', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_diabetes', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_tobacco', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_tcm', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_others', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_icd10_codes', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_visitBilled', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_dateRef', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_dateRefEmailed', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_notes', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_mileage', $searchTerm);
+		// $this->db->or_like('patient_transactions.pt_aw_billed', $searchTerm);
 
-		$this->db->or_like('place_of_service.pos_code', $searchTerm);
-		$this->db->or_like('place_of_service.pos_name', $searchTerm);
+		// $this->db->or_like('place_of_service.pos_code', $searchTerm);
+		// $this->db->or_like('place_of_service.pos_name', $searchTerm);
 
 		$query = $this->db->get('patient');
 
@@ -144,24 +144,24 @@ class Search_model extends \Mobiledrs\core\MY_Models {
 		$this->db->like('provider.provider_firstname', $searchTerm);
 		$this->db->or_like('provider.provider_lastname', $searchTerm);
 		$this->db->or_like("CONCAT_WS(' ', provider.provider_firstname, provider.provider_lastname)", $searchTerm);
-		$this->db->or_like('provider.provider_contactNum', $searchTerm);
-		$this->db->or_like('provider.provider_email', $searchTerm);
-		$this->db->or_like('provider.provider_address', $searchTerm);
-		$this->db->or_like('provider.provider_dateOfBirth', $searchTerm);
-		$this->db->or_like('provider.provider_languages', $searchTerm);
-		$this->db->or_like('provider.provider_areas', $searchTerm);
-		$this->db->or_like('provider.provider_npi', $searchTerm);
-		$this->db->or_like('provider.provider_dea', $searchTerm);
-		$this->db->or_like('provider.provider_license', $searchTerm);
-		$this->db->or_like('provider.provider_rate_initialVisit', $searchTerm);
-		$this->db->or_like('provider.provider_rate_followUpVisit', $searchTerm);
-		$this->db->or_like('provider.provider_rate_aw', $searchTerm);
-		$this->db->or_like('provider.provider_rate_acp', $searchTerm);
-		$this->db->or_like('provider.provider_rate_noShowPT', $searchTerm);
-		$this->db->or_like('provider.provider_rate_mileage', $searchTerm);
-		$this->db->or_like('provider.provider_gender', $searchTerm);
-		$this->db->or_like('provider.provider_rate_initialVisit_TeleHealth', $searchTerm);
-		$this->db->or_like('provider.provider_rate_followUpVisit_TeleHealth', $searchTerm);
+		// $this->db->or_like('provider.provider_contactNum', $searchTerm);
+		// $this->db->or_like('provider.provider_email', $searchTerm);
+		// $this->db->or_like('provider.provider_address', $searchTerm);
+		// $this->db->or_like('provider.provider_dateOfBirth', $searchTerm);
+		// $this->db->or_like('provider.provider_languages', $searchTerm);
+		// $this->db->or_like('provider.provider_areas', $searchTerm);
+		// $this->db->or_like('provider.provider_npi', $searchTerm);
+		// $this->db->or_like('provider.provider_dea', $searchTerm);
+		// $this->db->or_like('provider.provider_license', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_initialVisit', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_followUpVisit', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_aw', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_acp', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_noShowPT', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_mileage', $searchTerm);
+		// $this->db->or_like('provider.provider_gender', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_initialVisit_TeleHealth', $searchTerm);
+		// $this->db->or_like('provider.provider_rate_followUpVisit_TeleHealth', $searchTerm);
 
 		$query = $this->db->get('provider');
 

@@ -365,7 +365,7 @@ $config = array(
         array(
             'field' => 'hhcn_notes',
             'label' => 'notes',
-            'rules' => 'required|max_length[255]',
+            'rules' => 'required|max_length[2000]',
             'errors' => array(
                 'required' => 'This field is required.'
             )
@@ -507,6 +507,7 @@ $config = array(
                 'required' => 'This field is required.'
             )
         ),
+
         array(
             'field' => 'patient_hhcID',
             'label' => 'Home Health',
@@ -515,6 +516,7 @@ $config = array(
                 'required' => 'This field is required.'
             )
         ),
+    
         array(
             'field' => 'patient_pharmacy',
             'label' => 'Name',
@@ -568,7 +570,7 @@ $config = array(
         array(
             'field' => 'patient_phoneNum',
             'label' => 'Phone Number',
-            'rules' => 'required|max_length[45]',
+            'rules' => 'required|max_length[120]',
             'errors' => array(
                 'required' => 'This field is required.'
             )
@@ -581,14 +583,7 @@ $config = array(
                 'required' => 'This field is required.'
             )
         ),
-        array(
-            'field' => 'patient_hhcID',
-            'label' => 'Home Health',
-            'rules' => 'required',
-            'errors' => array(
-                'required' => 'This field is required.'
-            )
-        )
+        
     ),
     'patient_management/transaction/save' => array(
         array(
@@ -776,14 +771,6 @@ $config = array(
             )
         ),
         array(
-            'field' => 'prsl_dateRef[]',
-            'label' => 'Date of Referral',
-            'rules' => 'required',
-            'errors' => array(
-                'required' => 'This field is required.'
-            )
-        ),
-        array(
             'field' => 'prsl_notes[]',
             'label' => 'Notes',
             'rules' => 'required|max_length[2000]',
@@ -828,5 +815,28 @@ $config = array(
                 'required' => 'This field is required.'
             )
         )
-    )
+    ),
+    'specialist/profile/save' => array(
+        array(
+            'field' => 'company_name',
+            'label' => 'Name',
+            'rules' => 'required|max_length[45]',
+            'errors' => array(
+                'required' => 'This field is required.'
+            )
+        ),
+        array(
+            'field' => 'phone_number',
+            'label' => 'Phone Number',
+            'rules' => 'required|max_length[120]',
+            'errors' => array(
+                'required' => 'This field is required.'
+            )
+        ),
+        array(
+            'field' => 'address',
+            'label' => 'Address',
+            'rules' => 'required|max_length[255]',
+        )
+    ),
 );

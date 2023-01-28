@@ -14,6 +14,16 @@ class Profile_model extends \Mobiledrs\core\MY_Models {
 		$this->record_entity = new \Mobiledrs\entities\user_management\Profile_entity();
 	}
 
+	public function delete_cookie($id = 0){
+
+		$this->db->where('id', $id);
+		return $this->db->delete('cookie_restriction');
+
+		 
+
+
+	}
+
 	public function prepare_data() : array
 	{
 		$this->prepare_entity_data();

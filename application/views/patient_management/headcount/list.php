@@ -26,7 +26,7 @@
                     <th data-columnid="2">Provider</th>
                     <th data-columnid="3">Supervising MD</th>
                     <th data-columnid="4">Date of Service</th>
-                    <th data-columnid="5">Deductible</th>
+                    <th data-columnid="5">Type of Visit</th>
                     <th data-columnid="6">Home Health</th>
                     <th data-columnid="7">Paid</th>
                     <th data-columnid="8">AW Billed</th>
@@ -49,13 +49,7 @@
                         <td>{{ headcount['provider'] }}</td>
                         <td>{{ headcount['supervisingMD_firstname'] ~ ' ' ~ headcount['supervisingMD_lastname'] }}</td>
                         <td>{{ headcount['dateOfService'] }}</td>
-                        <td>
-                            {% if headcount['deductible'] starts with '$' %}
-                                <span class="text-red"><strong>{{ headcount['deductible'] }}</strong></span>
-                            {% else %}
-                                {{ headcount['deductible'] }}
-                            {% endif %}
-                        </td>
+                        <td>{{ headcount['typeOfVisit'] }}</td>
                         <td>{{ headcount['home_health'] }}</td>
                         <td>{{ headcount['paid'] }}</td>
                         <td>{{ headcount['aw_billed'] }}</td>

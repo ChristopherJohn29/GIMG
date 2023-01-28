@@ -7,6 +7,7 @@ class User extends CI_Controller {
 	
 	public function __construct()
 	{
+
 		parent::__construct();
 
 		$this->load->model(array(
@@ -20,11 +21,44 @@ class User extends CI_Controller {
 
 	public function index()
 	{
+		
+		$cookie_name = "computer_cookie";
+        
+        if(!isset($_COOKIE['computer_cookie'])) {
+           redirect('Cookie/generate_cookie');
+        } else {
+
+		
+			$result = $this->user_model->checkCookie($_COOKIE['computer_cookie']);
+
+			if(empty($result)) {
+				redirect('Cookie/generate_cookie');
+			}
+  
+        }
 		$this->twig->view('authentication/user');
 	}
 
 	public function verify()
 	{
+
+		$cookie_name = "computer_cookie";
+        
+        if(!isset($_COOKIE['computer_cookie'])) {
+           redirect('Cookie/generate_cookie');
+        } else {
+
+		
+			$result = $this->user_model->checkCookie($_COOKIE['computer_cookie']);
+
+			if(empty($result)) {
+				redirect('Cookie/generate_cookie');
+			}
+  
+        }
+
+
+
 		$this->load->library('form_validation');
 
 		if ($this->form_validation->run() == FALSE)
@@ -66,7 +100,7 @@ class User extends CI_Controller {
 				$roles_permission_entity->get_serialized()
 			);
 
-			if ($this->session->userdata('user_roleID') != '2000000001') {
+			if ($this->session->userdata('user_roleID') != '1') {
 				$this->logs_model->insert([
 					'data' => [
 						'user_log_userID' => $this->session->userdata('user_id'),
@@ -92,7 +126,7 @@ class User extends CI_Controller {
 
 	public function logout()
 	{
-		if ($this->session->userdata('user_roleID') != '2000000001') {
+		if ($this->session->userdata('user_roleID') != '1') {
 			$this->logs_model->insert([
 				'data' => [
 					'user_log_userID' => $this->session->userdata('user_id'),

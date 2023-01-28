@@ -34,6 +34,7 @@ class Communication_notes_entity extends \Mobiledrs\entities\Entity {
 			'485',
 			'Billing',
 			'Misc',
+			'Cognitive Issues',
 		];
 	}
 

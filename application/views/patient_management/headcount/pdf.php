@@ -15,7 +15,7 @@
             <th width="160px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Patient Name</th>
             <th width="160px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Provider</th>
             <th width="80px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Date of Service</th>
-            <th width="80px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Deductible</th>
+            <th width="80px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Type of Visit</th>
             <th width="220px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Home Health</th>
             <th width="70px" bgcolor="#548bb8" style="color: white;border:1px solid #548bb8; font-weight:bold;">Visit Billed</th>
         </tr>
@@ -29,13 +29,7 @@
                 <td width="160px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['patient_name']; ?></td>
                 <td width="160px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['provider']; ?></td>
                 <td width="80px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['dateOfService']; ?></td>
-                <td width="80px" style="border-bottom: 1px solid #d2d6de;">
-                    <?php if ($headcount['deductible'] == '$185'): ?>
-                        <span class="text-red"><strong><?php echo $headcount['deductible']; ?></strong></span>
-                    <?php else: ?>
-                        <?php echo $headcount['deductible']; ?>
-                    <?php endif; ?>
-                </td>
+                <td width="80px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['typeOfVisit']; ?></td>
                 <td width="220px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['home_health']; ?></td>
                 <td width="70px" style="border-bottom: 1px solid #d2d6de;"><?php echo $headcount['visit_billed']; ?></td>
             </tr>

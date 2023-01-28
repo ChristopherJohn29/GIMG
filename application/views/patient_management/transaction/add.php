@@ -28,12 +28,15 @@
 					<div class="col-lg-12">
 						<div class="box-body">
 						
-							{{ form_open("patient_management/transaction/save/add/#{ record.patient_id }", {"class": "xrx-form"}) }}
+							{{ form_open_multipart("patient_management/transaction/save/add/#{ record.patient_id }", {"class": "xrx-form"}) }}
 							
 								<div class="row">
 								
 									<!-- This is the patient's information -->
 									<div class="xrx-info">
+
+										<input type="hidden" name="pt_patientID" value="{{ record.patient_id }}">
+										<input type="hidden" name="transaction_file" value="">
 
 										<input type="hidden" name="pt_patientID" value="{{ record.patient_id }}">
 									
@@ -49,9 +52,7 @@
 											<p class="lead"><span>Medicare: </span> {{ record.patient_medicareNum }}</p>
 										</div>
 										
-										<div class="col-lg-6">
-											<p class="lead"><span>Home Health: </span> {{ record.hhc_name }}</p>
-										</div>
+								
 										
 									</div>
 									
@@ -77,16 +78,24 @@
 												<br>
 												
 											</div>
-											<div class="col-md-6 form-group">
-											
-												<label class="control-label">Status <span>*</span></label>
-												<select class="form-control" style="width: 100%;" required="true" name="pt_status">
-													<option value="" selected="true">Select</option>
-													<option value="1">Patient is medically stable</option>
-													<option value="2">Patient requires immediate medical attention</option>
-												</select>
+											<div class="col-md-6 form-group  {{ form_error('patient_hhcID') ? 'has-error' : '' }}">
 
-												<br>
+											<label class="control-label">Home Health</label>
+										
+										<div class="dropdown mobiledrs-autosuggest-select">
+											<input type="hidden" name="patient_hhcID">
+
+										  	<input class="form-control" 
+											  	name="patient_homehealth"
+										  		type="text" 
+										  		data-mobiledrs_autosuggest 
+										  		data-mobiledrs_autosuggest_url="{{ site_url('ajax/home_health_care_management/profile/search') }}"
+										  		data-mobiledrs_autosuggest_dropdown_id="patient_hhcID_dropdown">
+
+										  	<div data-mobiledrs_autosuggest_dropdown id="patient_hhcID_dropdown" style="width: 100%;">
+									  	  	</div>
+										</div>
+												
 												
 											</div>
                                         </div>
@@ -100,8 +109,8 @@
 
 										<div class="col-md-6 form-group {{ form_error('pt_dateRefEmailed') ? 'has-error' : '' }}">
 										
-											<label class="control-label">Date Referral was Emailed</label>
-											<input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask name="pt_dateRefEmailed" value="">
+											<label class="control-label">Date Referral was Emailed <span>*</span></label>
+											<input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask name="pt_dateRefEmailed" value="" required="true">
 											
 										</div>
 
@@ -131,10 +140,10 @@
 										
 										<div class="col-md-6 form-group {{ form_error('pt_providerID') ? 'has-error' : '' }}">
 										
-											<label class="control-label">Provider</label>
+											<label class="control-label">Provider <span>*</span></label>
 
 											<div class="dropdown mobiledrs-autosuggest-select">
-												<input type="hidden" name="pt_providerID">
+												<input type="hidden" name="pt_providerID" required="true">
 
 											  	<input class="form-control" 
 											  		type="text" 
@@ -217,10 +226,21 @@
 											
 										</div>
 										
-										<div class="col-md-6 form-group {{ form_error('pt_diabetes') ? 'has-error' : '' }}">
+										<div class="col-md-3 form-group {{ form_error('pt_diabetes') ? 'has-error' : '' }}">
 										
 											<label class="control-label">Diabetes</label>
 											<select class="form-control" style="width: 100%;" name="pt_diabetes">
+												<option value="" selected="true">Select</option>
+												<option value="1">Yes</option>
+												<option value="2">No</option>
+											</select>
+											
+										</div>
+
+										<div class="col-md-3 form-group {{ form_error('pt_hypertension') ? 'has-error' : '' }}">
+										
+											<label class="control-label">Hypertension</label>
+											<select class="form-control" style="width: 100%;" name="pt_hypertension">
 												<option value="" selected="true">Select</option>
 												<option value="1">Yes</option>
 												<option value="2">No</option>
@@ -291,10 +311,41 @@
 											
 										</div>
 
+									<div class="col-md-12 form-group">
+
+									<label class="control-label">Status </label>
+												<select class="form-control" style="width: 100%;" name="pt_status">
+													<option value="" selected="true">Select</option>
+													<option value="1">Patient is medically stable</option>
+													<option value="2">Patient requires immediate medical attention</option>
+												</select>
+
+												<br>
+
+
+										
+									</div>
+
+									<div class="col-md-12 has-error">
+										<span class="help-block">{{ form_error('patient_hhcID') }}</span>
+									</div>
+
+
 										<div class="col-md-12 has-error">
 											<span class="help-block">{{ form_error('pt_icd10_codes') }}</span>
 										</div>
-										
+
+										<div class="col-md-12 form-check" style="">
+										<label class="control-label">Upload Intake Form File</label>
+									    <input type="file" class="form-check-input" id="userfile" name="userfile[]" multiple accept=".pdf,.jpg,.jpeg,.png,.gif">
+									    <!-- <label class="form-check-label" for="labOrdes">Files</label> -->
+									  </div>
+
+										<div class="col-md-12 form-check" style="margin-top: 10px;">
+									    <input type="checkbox" class="form-check-input" id="labOrdes" name="lab_orders">
+									    <label class="form-check-label" for="labOrdes">Create Lab Orders and Results Entry</label>
+									  </div>
+																			
 										<div class="col-md-12 form-group">
 										
 											<label class="control-label">Notes</label>

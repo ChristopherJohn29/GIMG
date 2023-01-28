@@ -19,10 +19,10 @@
             <thead>
                 <tr>
                     <th>Patient Name</th>
-                    <th data-columnid="1">Date of Service</th>
-                    <th data-columnid="2">Home Health</th>
+                    <th>Subnote</th>
+                    <th>Date of Service</th>
+                    <th>Home Health</th>
                     <th>Contact Person</th>
-                    <th>Phone</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -33,10 +33,10 @@
 
                     <tr>
                         <td>{{ record['patientName'] }}</td>
+                        <td>{{ record['subnote'] }}</td>
                         <td>{{ record['dos'] }}</td>
                         <td>{{ record['homeHealth'] }}</td>
                         <td>{{ record['contactPerson'] }}</td>
-                        <td>{{ record['phone'] }}</td>
                         <td width="80px">
                             <a target="_blank" href="{{ site_url("patient_management/profile/details/#{ record['patient_id'] }") }}" title=""><span class="label label-primary">View</span></a>
                         </td>

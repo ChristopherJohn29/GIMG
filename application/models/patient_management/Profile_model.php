@@ -13,6 +13,38 @@ class Profile_model extends \Mobiledrs\core\MY_Models {
 		$this->record_entity = new \Mobiledrs\entities\patient_management\Profile_entity();
 	}
 
+	public function updateSpouse($patient_id = 0, $patient_spouse = 0) {
+		$query = array(
+			'patient_spouse' => $patient_spouse
+		);
+
+
+		$this->db->set($query);
+		$this->db->where('patient_id', $patient_id);
+		return $this->db->update('patient');
+	}
+
+	public function updateNameAddress($patient_id = 0) {
+		$query = array(
+			'patient_name' => $this->input->post('patient_name'),
+			'patient_address' => $this->input->post('patient_address')
+		);
+
+		$this->db->set($query);
+		$this->db->where('patient_id', $patient_id);
+		return $this->db->update('patient');
+	}
+
+	public function getSpouseData($patient_id) {
+
+		$this->db->select('*');
+		$this->db->where('patient_id', $patient_id);
+		$this->db->from('patient');
+		$result = $this->db->get()->result_array();
+
+		return $result;
+	}
+
 	public function prepare_data() : array
 	{
 		$this->prepare_entity_data();
@@ -26,10 +58,43 @@ class Profile_model extends \Mobiledrs\core\MY_Models {
 			'patient_address' => $this->record_entity->patient_address,
 			'patient_hhcID' => $this->record_entity->patient_hhcID,
 			'patient_caregiver_family' => $this->record_entity->patient_caregiver_family,
+			'patient_spouse' => $this->record_entity->patient_spouse,
+			'patient_sub_note' => $this->record_entity->patient_sub_note,
 			'patient_pharmacy' => $this->record_entity->patient_pharmacy,
 			'patient_pharmacyPhone' => $this->record_entity->patient_pharmacyPhone,
 			'patient_drug_allergy' => $this->record_entity->patient_drug_allergy,
 		];
+	}
+
+	public function searchByHomeHealth($homeHealt = false){
+		$this->db->select('patient_name, patient_id');
+		$this->db->where('patient_hhcID', $homeHealt);
+		$this->db->from('patient');
+		$this->db->order_by('patient_name', 'ASC');
+		$results = $this->db->get()->result_array();
+
+		$dataArray = array();
+		foreach($results as $result){
+
+			$this->db->select('pt_dateOfService');
+			$this->db->where('pt_patientID', $result['patient_id']);
+			$this->db->from('patient_transactions');
+			$this->db->order_by('pt_dateOfService', 'DESC');
+			$this->db->limit(1);
+
+			$trans = $this->db->get()->result_array();
+
+			if(isset($trans[0]['pt_dateOfService'])){
+				$dataArray[] = array(
+					'patient_name' => $result['patient_name'],
+					'patient_id' => $result['patient_id'],
+					'pt_dateOfService' => $trans[0]['pt_dateOfService']
+				);
+			}
+			
+		}
+
+		return $dataArray;
 	}
 
 	public function search() : array
@@ -50,6 +115,19 @@ class Profile_model extends \Mobiledrs\core\MY_Models {
 		$records = $this->find($patients_params);
 
 		return $this->get_pt_profile_trans_recently_added($records);
+	}
+
+	public function findHhc($patient_id = 0){
+
+		
+		$this->db->select('*');
+        $this->db->where('patient_id', $patient_id);
+        $this->db->from('patient');
+		$this->db->join('home_health_care', 'home_health_care.hhc_id = patient.patient_hhcID');
+        $result = $this->db->get()->result_array();
+
+        return $result;
+
 	}
 	
 	public function get_pt_profile_trans(array $records) : array

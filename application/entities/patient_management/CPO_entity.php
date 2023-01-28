@@ -26,6 +26,9 @@ class CPO_entity extends \Mobiledrs\entities\Entity {
 	protected $ptcpo_dateOfService;
 	protected $ptcpo_archive;
 	protected $ptcpo_addedByUserID;
+	protected $cpo_file;
+	protected $cpo_file_cert;
+
 	
 
 	protected $cpoStartDate = null;

@@ -6,6 +6,8 @@ use \Mobiledrs\entities\patient_management\Type_visit_entity as tv_entity;
 
 class Transaction_entity extends \Mobiledrs\entities\Entity {
 
+
+
 	protected $pt_id;
 	protected $pt_tovID;
 	protected $pt_patientID;
@@ -32,6 +34,36 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	protected $pt_supervising_mdID;
 	protected $pt_archive;
 	protected $pt_status;
+	protected $lab_orders;
+	protected $pt_reasonForVisit;
+	protected $patient_hhcID;
+	protected $transaction_file;
+	protected $patient_homehealth;
+	protected $no_homehealth_ref;
+	protected $not_our_md;
+	protected $non_admit;
+	protected $no_homehealth_ref_checked_by;
+	protected $not_our_md_checked_by;
+	protected $non_admit_checked_by;
+	protected $pt_hypertension;
+	protected $is_ca;
+	protected $userId;
+	protected $msp;
+	protected $patient_hhcID_2;
+	protected $hhc_email_additional;
+
+	protected $user_id;
+	protected $user_firstname;
+	protected $user_lastname;
+	protected $user_email;
+	protected $user_dateCreated;
+	protected $user_password;
+	protected $user_roleID;
+	protected $user_sessionID;
+	protected $user_archive;
+	protected $user_photo;
+	
+
 
 	protected $tov_id; 
 	protected $tov_name;
@@ -69,6 +101,16 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	protected $provider_rate_initialVisit_TeleHealth;
 	protected $provider_rate_followUpVisit_TeleHealth;
 	protected $provider_supervising_MD;
+	protected $provider_inactive;
+	protected $provider_rate_hospiceEvaluationVisit;
+	protected $provider_rate_hospiceFollowUpVisit;
+	protected $provider_rate_changeOfConditionVisit;
+	protected $provider_rate_transitionalCareVisit;
+	protected $provider_rate_hospiceEvaluationVisit_TeleHealth;
+	protected $provider_rate_hospiceFollowUpVisit_TeleHealth;
+	protected $provider_rate_changeOfConditionVisit_TeleHealth;
+	protected $provider_rate_ca_homeHealth;
+	protected $provider_rate_ca_teleHealth;
 
 	protected $patient_id;
 	protected $patient_name;
@@ -77,16 +119,25 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	protected $patient_dateOfBirth; 
 	protected $patient_phoneNum;
 	protected $patient_address;
-	protected $patient_hhcID;
 	protected $patient_dateCreated;
 	protected $patient_caregiver_family;
 	protected $patient_placeOfService;
 	protected $patient_pharmacy;
 	protected $patient_pharmacyPhone;
 	protected $patient_drug_allergy;
-
+	protected $patient_sub_note;
+	protected $patient_spouse;
 	protected $supervisingMD_firstname;
 	protected $supervisingMD_lastname;
+
+	protected $hhc_id;
+	protected $hhc_name;
+	protected $hhc_contact_name;
+	protected $hhc_phoneNumber;
+	protected $hhc_faxNumber;
+	protected $hhc_email;
+	protected $hhc_address;
+	protected $hhc_dateCreated;
 
     public function get_selected_choice_format(string $choice) : string
     {
@@ -209,10 +260,17 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 			} else {
 				return '99350';
 			}
-		} else {
+		} else if ($tov_id == tv_entity::COGNITIVE_HOME) {
+			return '99483';
+		} else if ($tov_id == tv_entity::COGNITIVE_TELEHEALTH) {
+			return '99483';
+		}  else {
 			return '';
 		}
 	}
+
+
+	
 
 	public function is_aw_performed() : bool
 	{
@@ -288,5 +346,41 @@ class Transaction_entity extends \Mobiledrs\entities\Entity {
 	public function notServicePaid() : bool
 	{
 		return empty($this->pt_service_billed) || $this->pt_service_billed == '0000-00-00';
+	}
+
+	public function get_BilledVisit(array $transactions) : array
+	{
+		$data = [];
+
+		for ($i = 0, $totalRecords = count($transactions); $i < $totalRecords; $i++)
+		{
+			$transaction = $transactions[$i];
+			if ((  empty($transaction->pt_visitBilled)) || ($transaction->pt_visitBilled == '0000-00-00'))
+			{
+				continue;
+			}
+
+			$data[] = $transactions[$i];
+		}
+
+		return $data;
+	}
+
+	public function get_BilledAW(array $transactions) : array
+	{
+		$data = [];
+
+		for ($i = 0, $totalRecords = count($transactions); $i < $totalRecords; $i++)
+		{
+			$transaction = $transactions[$i];
+			if ((  empty($transaction->pt_aw_billed)) || ($transaction->pt_aw_billed == '0000-00-00'))
+			{
+				continue;
+			}
+
+			$data[] = $transactions[$i];
+		}
+
+		return $data;
 	}
 }

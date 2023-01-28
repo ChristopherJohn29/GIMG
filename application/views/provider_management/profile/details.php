@@ -103,13 +103,12 @@
 								<thead>
 									<tr>
                                         <th>Initial Visit</th>
-										<th>Initial Visit TeleHealth</th>
+										<th>Initial Visit (TeleHealth)</th>
                                         <th>Follow-up Visit</th>
-										<th>Follow-up Visit TeleHealth</th>
-										<th>Annual Wellness</th>
-										<th>ACP</th>
-										<th>No Show</th>
-                                        <th>Mileage</th>
+										<th>Follow-up Visit (TeleHealth)</th>
+										<th>Hospice Follow-up Visit (Face to Face)</th>
+										<th>Hospice Follow-up Visit (Telehealth)</th>
+				
 									</tr>
 								</thead>
 								
@@ -119,10 +118,58 @@
 										<td>{{ record.get_number_format(record.provider_rate_initialVisit_TeleHealth) }}</td>
                                         <td>{{ record.get_number_format(record.provider_rate_followUpVisit) }}</td>
 										<td>{{ record.get_number_format(record.provider_rate_followUpVisit_TeleHealth) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_hospiceEvaluationVisit) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_hospiceEvaluationVisit_TeleHealth) }}</td>
+
+					
+									</tr>
+								</tbody>
+							</table>
+
+                            <table class="table no-margin table-striped">
+								<thead>
+									<tr>
+                       
+										<th>Change of Condition Visit (Face to Face)</th>
+                                        <th>Change of Condition Visit (Telehealth)</th>
+                                        <th>Transitional Care Visit (Face to Face)</th>
+                                        <th>Hospice Evaluation Visit (Face to Face)</th>
+                                        <th>Hospice Evaluation Visit (Telehealth)</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									<tr>
+                                    <td>{{ record.get_number_format(record.provider_rate_changeOfConditionVisit) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_changeOfConditionVisit_TeleHealth) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_transitionalCareVisit) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_hospiceEvaluationVisit) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_hospiceEvaluationVisit_TeleHealth) }}</td>
+					
+									</tr>
+								</tbody>
+							</table>
+
+                            <table class="table no-margin table-striped">
+								<thead>
+									<tr>
+										<th>Annual Wellness</th>
+										<th>ACP</th>
+										<th>No Show</th>
+                                        <th>Mileage</th>
+                                        <th>CA (HomeHealth)</th>
+                                        <th>CA (TeleHealth)</th>
+									</tr>
+								</thead>
+								
+								<tbody>
+									<tr>
 										<td>{{ record.get_number_format(record.provider_rate_aw) }}</td>
 										<td>{{ record.get_number_format(record.provider_rate_acp) }}</td>
                                         <td>{{ record.get_number_format(record.provider_rate_noShowPT) }}</td>
 										<td>{{ record.get_number_format(record.provider_rate_mileage) }}</td>
+                                        <td>{{ record.get_number_format(record.provider_rate_ca_homeHealth) }}</td>
+										<td>{{ record.get_number_format(record.provider_rate_ca_teleHealth) }}</td>
 									</tr>
 								</tbody>
 							</table>

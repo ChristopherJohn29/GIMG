@@ -111,6 +111,8 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 			$page_data['total'] = count($page_data['records']);
 		}
 
+		// var_dump($page_data['records']);
+		// exit;
 		$this->twig->view('home_health_care_management/profile/search', $page_data);
 	}
 

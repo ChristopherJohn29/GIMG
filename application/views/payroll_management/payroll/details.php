@@ -80,7 +80,6 @@
 											<th>AW / IPPE</th>
 											<th>ACP</th>
 											<th>Patient Name</th>
-											<th width="120px">Mileage</th>
 										</tr>
 									</thead>
 									
@@ -97,7 +96,6 @@
 												<td>{{ provider_transaction.get_aw_ippe_format(provider_transaction.pt_aw_ippe_code) }}</td>
 												<td>{{ provider_transaction.get_selected_choice_format(provider_transaction.pt_acp) }}</td>
 												<td>{{ provider_transaction.patient_name }}</td>
-												<td>{{ provider_transaction.pt_mileage }}</td>
 											</tr>
 
 										{% endfor %}
@@ -198,6 +196,102 @@
 													<td>{{ provider_payment_summary['follow_up_telehealth']['qty'] }}</td>
 													<td>${{ provider_payment_summary['follow_up_telehealth']['amount'] != '' ? provider_payment_summary['follow_up_telehealth']['amount'] : 0 }}</td>
 													<td>${{ provider_payment_summary['follow_up_telehealth']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT']['total'] != 0 %}
+
+												<tr>
+													<th>Hospice Follow-up Visit (Face to Face)</th>
+													<td>{{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT']['qty'] }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT']['amount'] != '' ? provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['total'] != 0 %}
+
+												<tr>
+													<th>Hospice Follow-up Visit (Telehealth)</th>
+													<td>{{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['qty'] }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['amount'] != '' ? provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_FOLLOW_UP_VISIT_TELEHEALTH']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['total'] != 0 %}
+
+												<tr>
+													<th>Change of Condition Visit (Face to Face)</th>
+													<td>{{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['qty'] }}</td>
+													<td>${{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['amount'] != '' ? provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['total'] != 0 %}
+
+												<tr>
+													<th>Change of Condition Visit (Telehealth)</th>
+													<td>{{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['qty'] }}</td>
+													<td>${{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['amount'] != '' ? provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['CHANGE_OF_CONDITION_TELEHEALTH']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+											{% if provider_payment_summary['TRANSITIONAL_CARE']['total'] != 0 %}
+
+												<tr>
+													<th>Transitional Care Visit (Face to Face)</th>
+													<td>{{ provider_payment_summary['TRANSITIONAL_CARE']['qty'] }}</td>
+													<td>${{ provider_payment_summary['TRANSITIONAL_CARE']['amount'] != '' ? provider_payment_summary['TRANSITIONAL_CARE']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['TRANSITIONAL_CARE']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+											{% if provider_payment_summary['HOSPICE_EVALUATION_VISIT']['total'] != 0 %}
+
+												<tr>
+													<th>Hospice Evaluation Visit (Face to Face)</th>
+													<td>{{ provider_payment_summary['HOSPICE_EVALUATION_VISIT']['qty'] }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_EVALUATION_VISIT']['amount'] != '' ? provider_payment_summary['HOSPICE_EVALUATION_VISIT']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_EVALUATION_VISIT']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+											{% if provider_payment_summary['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['total'] != 0 %}
+
+												<tr>
+													<th>Hospice Evaluation Visit (Telehealth)</th>
+													<td>{{ provider_payment_summary['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['qty'] }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['amount'] != '' ? provider_payment_summary['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['HOSPICE_EVALUATION_VISIT_TELEHEALTH']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['ca_homehealth']['total'] != 0 %}
+
+												<tr>
+													<th>Cognitive Assessment (Home Visit)</th>
+													<td>{{ provider_payment_summary['ca_homehealth']['qty'] }}</td>
+													<td>${{ provider_payment_summary['ca_homehealth']['amount'] != '' ? provider_payment_summary['ca_homehealth']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['ca_homehealth']['total'] }}</td>
+												</tr>
+
+											{% endif %}
+
+											{% if provider_payment_summary['ca_telehealth']['total'] != 0 %}
+
+												<tr>
+													<th>Cognitive Assessment (TeleHealth)</th>
+													<td>{{ provider_payment_summary['ca_telehealth']['qty'] }}</td>
+													<td>${{ provider_payment_summary['ca_telehealth']['amount'] != '' ? provider_payment_summary['ca_telehealth']['amount'] : 0 }}</td>
+													<td>${{ provider_payment_summary['ca_telehealth']['total'] }}</td>
 												</tr>
 
 											{% endif %}

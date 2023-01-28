@@ -57,7 +57,7 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 				[
 					'key' => 'roles_id',
 					'condition' => '<>',
-					'value' => '1'
+					'value' => '2000000001'
 				]
 			]
 		];
@@ -83,15 +83,27 @@ class Profile extends \Mobiledrs\core\MY_Controller {
 			redirect('errors/page_not_found');
 		}
 		
-		$role_params = [
-			'where' => [
-				[
-					'key' => 'roles_id',
-					'condition' => '<>',
-					'value' => '1'
+		if($this->session->userdata('user_roleID') == 1){
+			$role_params = [
+				'where' => [
+					[
+						'key' => 'roles_id',
+						'condition' => '<>',
+						'value' => '2000000000'
+					]
 				]
-			]
-		];
+			];
+		} else {
+			$role_params = [
+				'where' => [
+					[
+						'key' => 'roles_id',
+						'condition' => '<>',
+						'value' => '2000000001'
+					]
+				]
+			];
+		}
 
 		$page_data['roles'] = $this->roles_model->records($role_params);
 
